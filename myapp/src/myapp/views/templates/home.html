@@ -6,17 +6,15 @@
 {% block content %}
 
 
- <div class="hero-unit">
-    <h1>Welcome to myapp</h1>
-    <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-large" href="http://luminusweb.net">Learn more &raquo;</a></p>
- </div>
- 
- <div class="row-fluid">
-    <div class="span8">       
-    {{content}}
-    </div>
- </div>
+Welcome to bocai's Blog!
+<div class="row"> 
+	{% for blog in blogs %}
+	<div class="span12">{{blog.postdate}} - <a href="">{{blog.title}}</a> </div> 
+	<div class="span12">{{blog.content}}</div>
+	<div class="span12">-------------</div>
+	
+	{% endfor %}
+</div>
 
 
 {% endblock %}
