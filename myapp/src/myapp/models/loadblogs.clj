@@ -28,7 +28,7 @@
 
 ;;parse date and title ,20130426-darktime_note.md
 ;;the first line of the content is title
-(defn load-blog [path]
+(defn load-blog-list [path]
 	(let [blognames (list-blog-sources path)
 		  cnt (count blognames)]
       (loop [bloglist []
@@ -44,7 +44,14 @@
       	     		(inc i) )
       	     bloglist))))
 
-		 
+;;load blog content by blog id
+(defn load-blog-content [id]
+  (let [filename  "20130428-reading_dream.md"]
+    (conj {} 
+      {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
+      {:content (util/md->html  (str "/md/" filename))})
+    )
+  )
 
 
 

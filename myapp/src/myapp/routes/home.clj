@@ -7,11 +7,16 @@
 
 (defn home-page []
   (layout/render
-    "home.html" {:blogs (loadblogs/load-blog "/Users/zxb/work/blog/src")}))
+    "home.html" {:blogs (loadblogs/load-blog-list "/Users/zxb/work/blog/src")}))
 
 (defn about-page []
   (layout/render "about.html"))
 
+(defn content-page []
+  (layout/render
+    "content.html" {:blog (loadblogs/load-blog-content "")}))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
+  (GET "/content" [] (content-page))
   (GET "/about" [] (about-page)))

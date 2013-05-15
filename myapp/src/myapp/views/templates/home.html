@@ -2,20 +2,15 @@
 {% extends "myapp/views/templates/base.html" %}
 
 
-
 {% block content %}
 
-
-Welcome to bocai's Blog!
 <div class="row"> 
 	{% for blog in blogs %}
-	<div class="span12">{{blog.postdate}} - <a href="">{{blog.title}}</a> </div> 
-	<div class="span12">{{blog.content}}</div>
-	<div class="span12">-------------</div>
+	<div class="span12">{{blog.postdate}} - <a href="/content?p=1">{{blog.title}}</a> </div>  
+	<div class="span12"><br></div>
 	
 	{% endfor %}
 </div>
-
 
 {% endblock %}
 
