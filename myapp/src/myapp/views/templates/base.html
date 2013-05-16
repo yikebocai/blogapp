@@ -30,7 +30,7 @@
     <link rel="shortcut icon" href="{{context}}/ico/favicon.png">
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -56,19 +56,32 @@
         </div>
       </div>
     </div>
+<div class="container">
+<div class="row">
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li><a href="/content?tag=java"><i class="icon-chevron-right"></i> Java(3)</a></li>
+          <li><a href="/content?tag=clojure"><i class="icon-chevron-right"></i> Clojure(4) </a></li>
+          <li><a href="/content?tag=tech"><i class="icon-chevron-right"></i> Tech(10)</a></li>
+          <li><a href="/content?tag=life"><i class="icon-chevron-right"></i> Life(5)</a></li> 
+        </ul>
+      </div>
 
-	<div class="container">
-    {% block content %}
+	<div class="span7">
+     
+        {% block content %}
 
-	{% endblock %}
-
-	<hr>
-
-	<footer>
+        {% endblock %}  
+<hr>
+  <footer class="footer">
+     
         <p>&copy;一棵波菜 2013</p>
-      </footer>
-
+     
+  </footer>
     </div> <!-- /container -->
+  
+</div>
+
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

@@ -49,7 +49,10 @@
   (let [filename  "20130428-reading_dream.md"]
     (conj {} 
       {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
-      {:content (util/md->html  (str "/md/" filename))})
+      {:content 
+        ;remove the title
+        (let [html (util/md->html  (str "/md/" filename))]
+          (.substring html (.indexOf html "</p>"))  )})
     )
   )
 
