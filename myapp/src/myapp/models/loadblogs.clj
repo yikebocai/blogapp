@@ -46,7 +46,7 @@
 
 ;;load blog content by blog id
 (defn load-blog-content [id]
-  (let [filename  "20130428-reading_dream.md"]
+  (let [filename  "20130520-java_concurrency2.md"]
     (conj {} 
       {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
       {:content 

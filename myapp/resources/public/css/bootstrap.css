@@ -746,6 +746,16 @@ h6 {
   text-rendering: optimizelegibility;
 }
 
+
+h3:after {
+    content: " ";
+    display: block;
+    background-color:#DCDCDC;
+    height: 1px;
+    width: 100%; 
+    margin: 10px 0;
+  }
+
 h1 small,
 h2 small,
 h3 small,

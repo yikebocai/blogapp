@@ -14,4 +14,4 @@
   [filename]
   (->>
     (io/slurp-resource filename)
-    (md/md-to-html-string)))
+    (md/md-to-html-string) ))
