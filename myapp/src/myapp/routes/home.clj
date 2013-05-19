@@ -7,7 +7,7 @@
 
 (defn home-page []
   (layout/render
-    "home.html" {:blogs (loadblogs/load-blog-list "/Users/zxb/work/blog/src")}))
+    "home.html" {:blogs (loadblogs/load-blog-list "/Users/zxb/work/blog/src/")}))
 
 (defn about-page []
   (layout/render "about.html"))

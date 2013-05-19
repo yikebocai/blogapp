@@ -1,5 +1,5 @@
 (ns myapp.util
-  (:require [noir.io :as io]
+  (:require 
             [markdown.core :as md]))
 
 (defn format-time
@@ -13,5 +13,5 @@
   "reads a markdown file from public/md and returns an HTML string"
   [filename]
   (->>
-    (io/slurp-resource filename)
+    (slurp filename)
     (md/md-to-html-string) ))

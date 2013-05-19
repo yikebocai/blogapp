@@ -38,8 +38,8 @@
       	     		(conj bloglist 
 							(conj {}
 			  				{:postdate (first(clojure.string/split (nth blognames i) #"-"))}
-			  				{:title (read-title (str path "/" (nth blognames i)))}
-			  				{:content (util/md->html (str "/md/" (nth blognames i)))}
+			  				{:title (read-title (str path  (nth blognames i)))}
+			  				{:content (util/md->html (str path  (nth blognames i)))}
 			  				))
       	     		(inc i) )
       	     bloglist))))
@@ -51,7 +51,7 @@
       {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
       {:content 
         ;remove the title
-        (let [html (util/md->html  (str "/md/" filename))]
+        (let [html (util/md->html  (str "/Users/zxb/work/blog/src/" filename))]
           (.substring html (.indexOf html "</p>"))  )})
     )
   )
