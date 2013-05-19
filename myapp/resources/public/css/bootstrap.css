@@ -746,8 +746,15 @@ h6 {
   text-rendering: optimizelegibility;
 }
 
-
-h3:after {
+h1:after {
+    content: " ";
+    display: block;
+    background-color:#808080;
+    height: 2px;
+    width: 100%; 
+    margin: 10px 0;
+  }
+h2:after {
     content: " ";
     display: block;
     background-color:#DCDCDC;

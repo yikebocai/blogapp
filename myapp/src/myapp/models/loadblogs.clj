@@ -46,8 +46,10 @@
 
 ;;load blog content by blog id
 (defn load-blog-content [id]
-  (let [filename  "20130520-java_concurrency2.md"]
+  (let [filename  "20130520-java_concurrency2.md"
+        postdate0 (first(clojure.string/split filename #"-"))]
     (conj {} 
+      {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}
       {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
       {:content 
         ;remove the title
