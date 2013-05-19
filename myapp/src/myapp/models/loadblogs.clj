@@ -23,7 +23,7 @@
   	(sort-by 
   		#(java.lang.Integer/parseInt (first(clojure.string/split % #"-")))
   		> 
-  		(.list myfile))))
+  		(filter #(.endsWith % ".md") (.list myfile)))))
 )
 
 ;;parse date and title ,20130426-darktime_note.md
@@ -46,7 +46,7 @@
 
 ;;load blog content by blog id
 (defn load-blog-content [id]
-  (let [filename  "20130520-java_concurrency2.md"
+  (let [filename  "20130430-java_concurrency.md"
         postdate0 (first(clojure.string/split filename #"-"))]
     (conj {} 
       {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}

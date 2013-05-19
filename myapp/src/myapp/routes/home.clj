@@ -12,11 +12,16 @@
 (defn about-page []
   (layout/render "about.html"))
 
-(defn content-page []
+(defn content-page [p]
   (layout/render
-    "content.html" {:blog (loadblogs/load-blog-content "")}))
+    "content.html" {:blog (loadblogs/load-blog-content p)}))
+
+(defn sync-page []
+  (layout/render 
+    "sync.html"))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (GET "/content" [] (content-page))
+  (GET "/content" [p] (content-page p))
+  (GET "/sync" [] (sync-page))
   (GET "/about" [] (about-page)))

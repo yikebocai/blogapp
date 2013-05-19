@@ -2,7 +2,9 @@
   (:use myapp.routes.home
         compojure.core)
   (:require [noir.util.middleware :as middleware]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [taoensso.timbre :as timbre] 
+            [myapp.models.schema :as schema]))
 
 (defroutes app-routes
   (route/resources "/")
@@ -14,7 +16,14 @@
    an app server such as Tomcat
    put any initialization code here"
   []
-  (println "myapp started successfully..."))
+
+  ;;init the database if needed
+  (timbre/info (str "db initialized ? : " (schema/initialized?)))
+  (if-not (schema/initialized?) (schema/create-tables)) 
+
+  (timbre/info "myapp started successfully")
+
+  )
 
 (defn destroy
   "destroy will be called when your application
