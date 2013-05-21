@@ -20,8 +20,13 @@
   (layout/render 
     "sync.html"))
 
+(defn sync-page-submit []
+  (layout/render 
+    "sync.html"))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/content" [p] (content-page p))
   (GET "/sync" [] (sync-page))
+  (POST "/sync" [path url] (sync-page-submit path url))
   (GET "/about" [] (about-page)))

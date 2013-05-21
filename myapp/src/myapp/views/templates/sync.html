@@ -5,12 +5,26 @@
 
 <div class="row">  
 	<div ><h3>同步Markdown源文件</h3></div> 
+
 	<div>
-	<form action="/" method="POST">
-  		<input type="submit" value="comment">
+	<form action="/sync" method="POST">
+		本地目录：<input type="text" ></input><p></p>
+	    同步URL：<input type="text" ></input><p></p>
+	    <p> 
+  		<div class="btn">同步</div>
 	</form>
+	</div>
+
+	<div class="alert">
+		<a class="close" data-dismiss="alert">x</a>
+		同步完毕！
 	</div>
 	 
 </div>
+
+<!-- click button event  -->
+<script type="text/javascript">
+   
+</script>
 
 {% endblock %}
