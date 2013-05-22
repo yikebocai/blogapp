@@ -3,11 +3,13 @@
   (:require [myapp.views.layout :as layout]
             [myapp.util :as util]
             [myapp.models.loadblogs :as loadblogs]
+            [myapp.models.gitpull :as gitpull]
+            [myapp.models.db :as db]
             ))
 
 (defn home-page []
   (layout/render
-    "home.html" {:blogs (loadblogs/load-blog-list "/Users/zxb/work/blog/src/")}))
+    "home.html" {:blogs (db/list-blog)}))
 
 (defn about-page []
   (layout/render "about.html"))
@@ -20,9 +22,12 @@
   (layout/render 
     "sync.html"))
 
-(defn sync-page-submit []
+(defn sync-page-submit [path url]
   (layout/render 
-    "sync.html"))
+    "sync.html" 
+    {:path path 
+     :url url  
+     :result (gitpull/sync-blog path url)}))
 
 (defroutes home-routes
   (GET "/" [] (home-page))

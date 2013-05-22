@@ -12,17 +12,32 @@
   [name postdate]
   (insert blog 
     (values {
-        :timestamp (new java.util.Date)
+      :timestamp (new java.util.Date)
     	:name name 
-        :post_date postdate 
+      :post_date postdate 
         })))
 
+(defn find-blog [name]
+  (select blog 
+    (fields :id)
+    (where {:name [= name]})))
+
 (defn update-blog
-  [pageview vote share]
+  [id name postdate]
   (update blog 
   	(set-fields
        {:timestamp (new java.util.Date)
-    	:pageview pageview 
+        :name name
+        :post_date postdate })
+        (where {:id [= id]})
+        ))
+
+(defn update-blog-stat
+  [id pageview vote share]
+  (update blog 
+    (set-fields
+       {:timestamp (new java.util.Date)
+        :pageview pageview 
         :vote vote
         :share share })
         (where {:id [= id]})
@@ -30,4 +45,4 @@
 
 (defn list-blog []
   (select blog 
-  	(order :post_date desc)))
+  	(order :post_date :ASC)))

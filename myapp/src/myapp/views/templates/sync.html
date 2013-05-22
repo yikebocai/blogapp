@@ -7,24 +7,33 @@
 	<div ><h3>同步Markdown源文件</h3></div> 
 
 	<div>
-	<form action="/sync" method="POST">
-		本地目录：<input type="text" ></input><p></p>
-	    同步URL：<input type="text" ></input><p></p>
+	<form id="syncForm" action="/sync" method="POST">
+		本地目录：<input type="text"  class="span4" name="path" value={{path}}></input><p></p>
+	    同步URL：<input type="text"  class="span4" name="url" value={{url}}></input><p></p>
 	    <p> 
-  		<div class="btn">同步</div>
+  		<div id="syncBtn" class="btn btn-primary">同步</div>
 	</form>
 	</div>
-
-	<div class="alert">
+	 
+	{% ifequal result "OK" %}
+	<div id="syncAlert" class="alert alert-success">
 		<a class="close" data-dismiss="alert">x</a>
 		同步完毕！
 	</div>
-	 
+	{% endifequal %}
 </div>
+{% endblock %}
 
 <!-- click button event  -->
 <script type="text/javascript">
-   
+jQuery(document).ready(function(){
+	$("#syncBtn").click(function(){
+		//alert('test');
+		$("#syncAlert").hide();
+   		$("#syncForm").submit();
+
+   });
+
+});
 </script>
 
-{% endblock %}
