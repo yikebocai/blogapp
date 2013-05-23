@@ -29,9 +29,23 @@
      :url url  
      :result (gitpull/sync-blog path url)}))
 
+(defn config-page []
+  (layout/render 
+    "config.html"))
+
+(defn config-page-submit [path url]
+  (layout/render 
+    "config.html" 
+    {:path path 
+     :url url  
+     ;:result (db/set-config path url)
+   }))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/content" [p] (content-page p))
   (GET "/sync" [] (sync-page))
   (POST "/sync" [path url] (sync-page-submit path url))
+  (GET "/config" [] (config-page))
+  (POST "/config" [path url] (config-page-submit path url))
   (GET "/about" [] (about-page)))

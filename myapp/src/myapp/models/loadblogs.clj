@@ -1,7 +1,9 @@
 ;;load markdown blog files 
 (ns myapp.models.loadblogs
    (:use clojure.java.io)
-   (:require [myapp.util :as util] ))
+   (:require 
+    [myapp.util :as util]
+    [myapp.models.db :as db] ))
 
 ;;define blog object
 (defrecord blog [postdate title content])
@@ -38,6 +40,7 @@
       	     		(conj bloglist 
 							(conj {}
 			  				{:postdate (first(clojure.string/split (nth blognames i) #"-"))}
+                {:name (nth blognames i)}
 			  				{:title (read-title (str path  (nth blognames i)))}
 			  				{:content (util/md->html (str path  (nth blognames i)))}
 			  				))
@@ -46,7 +49,7 @@
 
 ;;load blog content by blog id
 (defn load-blog-content [id]
-  (let [filename  "20130430-java_concurrency.md"
+  (let [filename  (:name (first (db/find-blog id)))
         postdate0 (first(clojure.string/split filename #"-"))]
     (conj {} 
       {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}

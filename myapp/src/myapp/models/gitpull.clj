@@ -18,11 +18,12 @@
 			   (cond
 			   	   (let [blog (nth bloglist x)
 			    		name (:name blog)
+			    		title (:title blog)
 			    		postdate (:postdate blog)
-			    		ids (db/find-blog name)]
+			    		ids (db/find-blog-by-name name)]
 			    		(if (= (count ids) 1) 
-			    			(db/update-blog (first ids) name postdate)
-			    			(db/post-blog name postdate)))
+			    			(db/update-blog (:id (first ids)) name title postdate)
+			    			(db/post-blog name title postdate)))
 			    (str "OK")))))
 
 (defn sync-blog[path url]

@@ -26,13 +26,14 @@
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp] 
       [:name "varchar(100)"]
-      [:post_date "INTEGER"]
+      [:title "varchar(100)"]
+      [:postdate "INTEGER"]
       [:pageview "INTEGER"]
       [:vote "INTEGER"] 
       [:share "INTEGER"]
       )
     (sql/do-commands
-      "CREATE INDEX post_date_index ON blog (post_date)"
+      "CREATE INDEX postdate_index ON blog (postdate)"
       "CREATE INDEX vote_index ON blog (vote)")
     ))
 
