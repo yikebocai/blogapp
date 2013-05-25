@@ -8,13 +8,13 @@
 
 	<div>
 	<form id="syncForm" action="/sync" method="POST">
-		本地目录：<input type="text"  class="span4" name="path" value={{path}}></input><p></p>
-	    同步URL：<input type="text"  class="span4" name="url" value={{url}}></input><p></p>
+		本地目录：<input type="text"  class="span4" readonly="readonly" name="path" value={{path}}></input><p></p>
+	    同步URL：<input type="text"  class="span4" readonly="readonly" name="url" value={{url}}></input><p></p>
 	    <p> 
   		<div id="syncBtn" class="btn btn-primary">同步</div>
 	</form>
 	</div>
-	 
+	
 	{% ifequal result "OK" %}
 	<div id="syncAlert" class="alert alert-success">
 		<a class="close" data-dismiss="alert">x</a>

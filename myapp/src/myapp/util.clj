@@ -15,3 +15,17 @@
   (->>
     (slurp filename)
     (md/md-to-html-string) ))
+
+(defn encrypt [algorithm orig]
+  (let [inst (java.security.MessageDigest/getInstance algorithm)
+    size (* 2 (.getDigestLength inst))
+    raw (.digest inst (.getBytes orig))
+    sig (.toString (java.math.BigInteger. 1 raw) 16)
+    padding (apply str (repeat (- size (count sig)) "0"))
+    ]
+    (str padding sig)))
+
+(defn md5 [orig]
+  (encrypt "MD5" orig))
+
+

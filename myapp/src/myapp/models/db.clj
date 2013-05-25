@@ -6,7 +6,7 @@
 (defdb db schema/db-spec)
 
 (defentity blog)
-
+(defentity config)
 
 (defn post-blog
   [name title postdate]
@@ -51,5 +51,21 @@
   (select blog 
   	(order :postdate :DESC)))
 
-(defn set-config [path url]
-  ())
+(defn insert-config [key value]
+  (insert config 
+    (values {
+      :key key
+      :value value
+      :timestamp (new java.util.Date)
+      })))
+
+(defn find-config [key]
+  (select config 
+    (where {:key [= key]})))
+
+(defn update-config [key value]
+  (update config 
+    (set-fields
+      {:timestamp (new java.util.Date) 
+        :value value})
+    (where {:key [= key]})))

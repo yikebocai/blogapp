@@ -12,10 +12,11 @@
 
 ;;sync database
 (defn sync-db[path]
-	(let [bloglist (loadblogs/load-blog-list (str path "/src/"))
-		len (count bloglist)]
-		(dotimes [x len]
-			   (cond
+	(do
+		(let [bloglist (loadblogs/load-blog-list (str path "/src/"))
+		      len (count bloglist)]
+		    (dotimes [x len]
+			   (do
 			   	   (let [blog (nth bloglist x)
 			    		name (:name blog)
 			    		title (:title blog)
@@ -23,12 +24,14 @@
 			    		ids (db/find-blog-by-name name)]
 			    		(if (= (count ids) 1) 
 			    			(db/update-blog (:id (first ids)) name title postdate)
-			    			(db/post-blog name title postdate)))
-			    (str "OK")))))
+			    			(db/post-blog name title postdate))))))
+			    (str "OK")))
 
 (defn sync-blog[path url]
-	(if (.equals "OK" (sync-github path url))
-		(if (.equals "OK" (sync-db path))
+	(let [gitresp (sync-github path url)]
+		(if (.equals "OK" gitresp)
+		(let [dbresp (sync-db path)]
+			(if (.equals "OK" dbresp)
 			(str "OK")
-			(str "ERROR:sync db failed!"))
-		(str "ERROR:sync GitHub failed!")))
+			(str "ERROR:sync db failed!<br> " dbresp)))
+		(str "ERROR:sync GitHub failed!<br> " gitresp))))

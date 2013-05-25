@@ -3,7 +3,9 @@
    (:use clojure.java.io)
    (:require 
     [myapp.util :as util]
-    [myapp.models.db :as db] ))
+    [myapp.models.db :as db] 
+    [myapp.models.config :as config]
+    ))
 
 ;;define blog object
 (defrecord blog [postdate title content])
@@ -50,13 +52,14 @@
 ;;load blog content by blog id
 (defn load-blog-content [id]
   (let [filename  (:name (first (db/find-blog id)))
-        postdate0 (first(clojure.string/split filename #"-"))]
+        postdate0 (first(clojure.string/split filename #"-"))
+        path (config/get-src-path)]
     (conj {} 
       {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}
-      {:title (read-title (str "/Users/zxb/work/blog/src/" filename))}
+      {:title (read-title (str path filename))}
       {:content 
         ;remove the title
-        (let [html (util/md->html  (str "/Users/zxb/work/blog/src/" filename))]
+        (let [html (util/md->html  (str path filename))]
           (.substring html (.indexOf html "</p>"))  )})
     )
   )

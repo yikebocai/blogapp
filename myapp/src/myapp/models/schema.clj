@@ -19,15 +19,16 @@
 
 
 (defn create-blog-table []
+  "create blog table,save blog related info,like title,postdate etc"
   (sql/with-connection
     db-spec
     (sql/create-table
       :blog
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp] 
-      [:name "varchar(100)"]
-      [:title "varchar(100)"]
-      [:postdate "INTEGER"]
+      [:name "varchar(100)"]    ;md file name
+      [:title "varchar(100)"]   ;blog title
+      [:postdate "INTEGER"]     ;blog post date
       [:pageview "INTEGER"]
       [:vote "INTEGER"] 
       [:share "INTEGER"]
@@ -37,9 +38,26 @@
       "CREATE INDEX vote_index ON blog (vote)")
     ))
 
+
+(defn create-config-table []
+  "create config table,save system info,for example:path,url,email etc,KV structure"
+  (sql/with-connection
+    db-spec
+    (sql/create-table
+      :config 
+      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      [:timestamp :timestamp]
+      [:key "varchar(100)"]
+      [:value "varchar"]
+      )
+    (sql/do-commands
+      "CREATE INDEX key_index ON config (key)")
+    ))
+
 (defn create-tables
   "creates the database tables used by the application"
   []
-  (cond 
-    (create-blog-table)
-    (timbre/info "create blog table")))
+  (do 
+    (if (create-blog-table) (timbre/info "create blog table"))
+    (if (create-config-table) (timbre/info "create config table"))
+    ))
