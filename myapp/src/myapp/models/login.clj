@@ -2,13 +2,24 @@
    (:require  
     [myapp.models.config :as config] 
     [myapp.util :as util]
+    [taoensso.timbre :as timbre] 
+    [noir.session :as session]
     ))
 
 (defn valid [email password]
+	"valid username and password from db,
+	password should be encrypted ahead"
 	(let [myemail (config/get-value "email")
 		mypwd (config/get-value "password")
 		result (and (= myemail email) (= mypwd (util/md5 password)))]
-		(do (println "valid username and password")
-		(if result true false))))
+		(do 
+			(timbre/info "valid username and password")
+			(session/put! :username email)
+			(if result true false))))
 
+
+(defn signin [username password]
+	(if (nil? (session/get :username))
+		(valid username password)
+		(do (println "valid ok from session") true)))
 

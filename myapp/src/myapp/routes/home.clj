@@ -7,22 +7,19 @@
             [myapp.models.db :as db]
             [myapp.models.config :as config]
             [myapp.models.login :as login]
+
             ))
 
 (defn home-page []
-  (do 
-    (println "home page")
-    (layout/render "home.html" 
-    {:blogs (db/list-blog)
-     :blogname (config/get-value "blogname")})))
+  (layout/render "home.html" 
+    {:blogs (db/list-blog)}))
 
 (defn home-page-login [username password]
-  ( let [islogin (login/valid username password)]
+  ( let [islogin (login/signin username password)]
     (if (true? islogin)
       (layout/render "home.html" 
         { :blogs (db/list-blog)
-          :blogname (config/get-value "blogname")
-          :nickname (config/get-value "nickname")
+          :username username
           :islogin islogin})
       (layout/render "login.html")
       )))

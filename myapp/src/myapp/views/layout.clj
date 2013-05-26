@@ -1,10 +1,21 @@
 (ns myapp.views.layout
   (:use noir.request)
-  (:require [clabango.parser :as parser]))
+  (:require 
+  	[clabango.parser :as parser]
+  	[taoensso.timbre :as timbre] 
+  	[noir.session :as session]
+  	))
 
 (def template-path "myapp/views/templates/")
 
 (defn render [template & [params]]
-  (parser/render-file (str template-path template)
-                      (assoc params :context (:context *request*))))
+	(let [islogin (not (nil? (session/get :username)))
+		cxt (assoc (:context *request*) :islogin islogin )]
+	(do 
+		(timbre/debug "context:" cxt)
+  		(parser/render-file 
+  			(str template-path template)
+                      (if (nil? params)
+                      	cxt
+                      	(conj params  cxt))))))
 
