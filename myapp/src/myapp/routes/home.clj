@@ -7,7 +7,7 @@
             [myapp.models.db :as db]
             [myapp.models.config :as config]
             [myapp.models.login :as login]
-
+            [compojure.route :as route]
             ))
 
 (defn home-page []
@@ -33,11 +33,12 @@
     "content.html" {:blog (loadblogs/load-blog-content p)}))
 
 (defn sync-page []
-  (layout/render 
-    "sync.html"
-    {:path (config/get-value "path")
-     :url (config/get-value "url")
-      }))
+  (if (util/islogin)
+      (layout/render "sync.html"
+        {:path (config/get-value "path")
+        :url (config/get-value "url")})
+      (route/not-found "Not Found")
+      ))
 
 (defn sync-page-submit [path url]
   (layout/render 
@@ -47,6 +48,7 @@
      :result (gitpull/sync-blog path url)}))
 
 (defn config-page []
+  (if (util/islogin)
   (layout/render 
     "config.html"
     {:path (config/get-value "path")
@@ -56,7 +58,9 @@
      :email (config/get-value "email")
      :password (config/get-value "password")
      :nickname (config/get-value "nickname") 
-     }))
+     })
+  (route/not-found "Not Found")
+  ))
 
 (defn config-page-submit [path url period blogname email password nickname]
   (layout/render 

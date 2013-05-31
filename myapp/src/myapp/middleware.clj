@@ -18,4 +18,6 @@
 			;(println resp)
 			resp)))
 
-
+(defn valid-account [handler]
+	(fn [req]
+		()))

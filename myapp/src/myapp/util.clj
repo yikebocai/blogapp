@@ -1,6 +1,7 @@
 (ns myapp.util
   (:require 
-            [markdown.core :as md]))
+            [markdown.core :as md]
+            [noir.session :as session]))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -27,5 +28,11 @@
 
 (defn md5 [orig]
   (encrypt "MD5" orig))
+
+(defn islogin []
+  (let [islgn (not (nil? (session/get :username)))]
+    (do 
+      (println "islogin:" islgn)
+      (true? islgn))))
 
 
