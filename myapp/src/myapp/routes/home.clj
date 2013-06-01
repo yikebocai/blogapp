@@ -1,5 +1,7 @@
 (ns myapp.routes.home
-  (:use compojure.core)
+  (:use [compojure.core]
+        [noir.request]
+        [ring.util.response :only [redirect]])
   (:require [myapp.views.layout :as layout]
             [myapp.util :as util]
             [myapp.models.loadblogs :as loadblogs]
@@ -14,16 +16,11 @@
   (layout/render "home.html" 
     {:blogs (db/list-blog)}))
 
-(defn home-page-login [username password]
-  ( let [islogin (login/signin username password)]
-    (if (true? islogin)
-      (layout/render "home.html" 
-        { :blogs (db/list-blog)
-          :username username
-          :islogin islogin})
-      (layout/render "login.html")
-      )))
-
+(defn home-page-submit []
+  (let [referer (util/get-header "referer")]
+  (do 
+    (login/signout)
+    (redirect referer))))
 
 (defn about-page []
   (layout/render "about.html"))
@@ -37,7 +34,7 @@
       (layout/render "sync.html"
         {:path (config/get-value "path")
         :url (config/get-value "url")})
-      (route/not-found "Not Found")
+      (redirect "/")
       ))
 
 (defn sync-page-submit [path url]
@@ -59,8 +56,7 @@
      :password (config/get-value "password")
      :nickname (config/get-value "nickname") 
      })
-  (route/not-found "Not Found")
-  ))
+  (redirect "/")))
 
 (defn config-page-submit [path url period blogname email password nickname]
   (layout/render 
@@ -75,13 +71,27 @@
      :result (config/set-config path url period blogname email password nickname)
    }))
 
+(defn login-page[] 
+  (layout/render "login.html"))
+
+(defn login-page-submit [username password]
+  ( let [islogin (login/signin username password)]
+    (if (true? islogin)
+      (redirect "/config")
+      (layout/render "login.html"
+        {:username username 
+          :loginfailed true})
+      )))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (POST "/" [username password] (home-page-login username password))
+  (POST "/" [] (home-page-submit))
+  (GET "/about" [] (about-page))
   (GET "/content" [p] (content-page p))
   (GET "/sync" [] (sync-page))
   (POST "/sync" [path url] (sync-page-submit path url))
   (GET "/config" [] (config-page))
   (POST "/config" [path url period blogname email password nickname] (config-page-submit path url period blogname email password nickname))
-  (GET "/about" [] (about-page))
+  (GET "/login" [] (login-page))
+  (POST "/login" [username password] (login-page-submit username password)) 
   )

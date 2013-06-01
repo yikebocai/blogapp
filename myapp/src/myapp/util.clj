@@ -1,4 +1,5 @@
 (ns myapp.util
+  (:use [noir.request])
   (:require 
             [markdown.core :as md]
             [noir.session :as session]))
@@ -34,5 +35,8 @@
     (do 
       (println "islogin:" islgn)
       (true? islgn))))
+
+(defn get-header [header]
+  (nth (nth (filter #(.contains % header) (:headers *request*)) 0) 1))
 
 

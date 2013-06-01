@@ -12,7 +12,7 @@
 	(let [islogin (not (nil? (session/get :username)))
 		cxt (assoc (:context *request*) :islogin islogin )]
 	(do 
-		(timbre/debug "context:" cxt)
+		(timbre/debug "context:" *request*)
   		(parser/render-file 
   			(str template-path template)
                       (if (nil? params)

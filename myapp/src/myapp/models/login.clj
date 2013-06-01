@@ -14,7 +14,7 @@
 		result (and (= myemail email) (= mypwd (util/md5 password)))]
 		(do 
 			(timbre/info "valid username and password")
-			(session/put! :username email)
+			(cond result (session/put! :username email))
 			(if result true false))))
 
 
@@ -23,3 +23,5 @@
 		(valid username password)
 		(do (println "valid ok from session") true)))
 
+(defn signout [] 
+	(session/put! :username nil) )
