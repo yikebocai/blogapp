@@ -6174,3 +6174,11 @@ a.badge:focus {
 .affix {
   position: fixed;
 }
+
+.endline { 
+    display: block;
+    background-color:#F5F5F5;
+    height: 3px;
+    width: 100%; 
+    margin: 10px 0;
+}
