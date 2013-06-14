@@ -33,7 +33,9 @@
 				  dst (str (io/resource-path) "/myimg")
 				  cpresp (sh "cp" "-rf"  src dst)
 				  error (:err cpresp)]
-				(if (empty? error) true false))))
+				(do 
+					(timbre/debug "myimg path:" dst)
+					(if (empty? error) true false)))))
 )
 
 ;;sync database
