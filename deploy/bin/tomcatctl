@@ -1,16 +1,17 @@
 #!/bin/bash
 
-APP_PORT=8080
+APP_PORT=3000
 APP_NAME=myapp
 WAR_NAME=$APP_NAME.war
 WEB_APP_HOME=/home/admin/blogapp
 OUTPUT_HOME=$WEB_APP_HOME/deploy
-STDOUT_LOG=$OUTPUT_HOME/tomcat.log
-CHECK_START_URL="http://localhost:$APP_PORT/core/ok"
+STDOUT_LOG=$OUTPUT_HOME/logs/tomcat.log
+CHECK_STARTUP_URL="http://localhost:$APP_PORT/ok"
+TOMCAT_HOME=/usr/install/tomcat
 
 start()
 {
-    STR=`ps -C java -f --width 1500"`
+    STR=`ps -C java -f --width 1500|grep -v PID`
     if [ ! -z "$STR" ]; then
         echo "warn: Java process is already run, please check."
         exit;
@@ -22,24 +23,9 @@ start()
         exit;
     fi
 
-    if [ ! -d "$WEB_APP_HOME/deploy/$WAR_NAME.war" ]; then
-        echo "warn: $WAR_NAME is not exist, please check."
-        exit;
-    fi
-
     if [ ! -d "$OUTPUT_HOME/logs" ]; then
         mkdir -p $OUTPUT_HOME/logs
     fi
-
-    echo -n "Start server copy ...... "
-    WAR_DIR= $WEB_APP_HOME/deploy/$WAR_NAME
-    rm -rf $WAR_DIR
-    mkdir $WAR_DIR
-    APP_WAR=$WEB_APP_HOME/$APP_NAME/target/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
-    cp $APP_WAR  $WAR_DIR
-    cd $WAR_DIR
-    jar -xvf $APP_WAR
-    echo "OK!"
 
     $TOMCAT_HOME/bin/startup.sh  >$STDOUT_LOG 2>&1 &
     starthttpd
@@ -47,8 +33,8 @@ start()
 
 stop()
 {
-    $WEB_APP_HOME/deploy/tomcactl stop
-
+    $TOMCAT_HOME/bin/shutdown.sh  >$STDOUT_LOG 2>&1 &
+       
     TIMESTAMP=`date +%Y_%m_%d_%H:%M`
     KILL_LOG=$OUTPUT_HOME/logs/kill_log
 
@@ -92,7 +78,7 @@ usage() {
  }
 
 
-case "$ACTION" in
+case "$1" in
     start)
         start
     ;;
@@ -105,6 +91,7 @@ case "$ACTION" in
         start
     ;;
     *)
+     echo $ACTION
         usage
     ;;
 esac

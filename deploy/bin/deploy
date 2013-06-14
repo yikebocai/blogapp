@@ -1,15 +1,29 @@
 #!/bin/bash
-WEB_APP_NAME=/home/admin/blogapp
+WEB_APP_HOME=/home/admin/blogapp
+APP_NAME=myapp
+WAR_NAME=$APP_NAME.war
+APP_WAR=$WEB_APP_HOME/$APP_NAME/target/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
+WAR_DIR=$WEB_APP_HOME/deploy/$WAR_NAME
 
 echo "start app deploy ..."
 echo "sync source code ..."
-cd $WEB_APP_NAME
+cd $WEB_APP_HOME
 git pull
 
 echo "package into war ..."
 cd myapp
 rm -rf target/*.war
 lein ring uberwar
+echo "OK!"
 
-echo "deploy is ok"
+echo -n "Start server copy ...... "
+rm -rf $WAR_DIR
+mkdir $WAR_DIR
+cp $APP_WAR  $WAR_DIR
+cd $WAR_DIR
+jar -xf $APP_WAR
+rm $WAR_DIR/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
+echo "OK!"
+
+echo "deploy is over"
 
