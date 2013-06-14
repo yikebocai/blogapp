@@ -86,6 +86,10 @@
           :loginfailed true})
       )))
 
+(defn check-app []
+  (do (println "check-app")
+  (layout/render "ok.html")))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [] (home-page-submit))
@@ -97,4 +101,5 @@
   (POST "/config" [path url period blogname email password nickname] (config-page-submit path url period blogname email password nickname))
   (GET "/login" [] (login-page))
   (POST "/login" [username password] (login-page-submit username password)) 
+  (GET "/ok" [] (check-app))
   )
