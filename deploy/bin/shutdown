@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BASE=`pwd`
+chmod +x $BASE/bin/ -R
+ 
+$BASE/bin/tomcatctl stop
+

@@ -1,0 +1,110 @@
+#!/bin/bash
+
+APP_PORT=8080
+APP_NAME=myapp
+WAR_NAME=$APP_NAME.war
+WEB_APP_HOME=/home/admin/blogapp
+OUTPUT_HOME=$WEB_APP_HOME/deploy
+STDOUT_LOG=$OUTPUT_HOME/tomcat.log
+CHECK_START_URL="http://localhost:$APP_PORT/core/ok"
+
+start()
+{
+    STR=`ps -C java -f --width 1500"`
+    if [ ! -z "$STR" ]; then
+        echo "warn: Java process is already run, please check."
+        exit;
+    fi
+
+    STR=`netstat -an | grep "$APP_PORT" | grep LISTEN`
+    if [ ! -z "$STR" ]; then
+        echo "warn: Tomcat port is already used, please check."
+        exit;
+    fi
+
+    if [ ! -d "$WEB_APP_HOME/deploy/$WAR_NAME.war" ]; then
+        echo "warn: $WAR_NAME is not exist, please check."
+        exit;
+    fi
+
+    if [ ! -d "$OUTPUT_HOME/logs" ]; then
+        mkdir -p $OUTPUT_HOME/logs
+    fi
+
+    echo -n "Start server copy ...... "
+    WAR_DIR= $WEB_APP_HOME/deploy/$WAR_NAME
+    rm -rf $WAR_DIR
+    mkdir $WAR_DIR
+    APP_WAR=$WEB_APP_HOME/$APP_NAME/target/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
+    cp $APP_WAR  $WAR_DIR
+    cd $WAR_DIR
+    jar -xvf $APP_WAR
+    echo "OK!"
+
+    $TOMCAT_HOME/bin/startup.sh  >$STDOUT_LOG 2>&1 &
+    starthttpd
+}
+
+stop()
+{
+    $WEB_APP_HOME/deploy/tomcactl stop
+
+    TIMESTAMP=`date +%Y_%m_%d_%H:%M`
+    KILL_LOG=$OUTPUT_HOME/logs/kill_log
+
+    echo "`hostname` was stopted at $TIMESTAMP" >>$KILL_LOG
+
+    ps axfww | grep java | grep -v grep | awk '{print $1}' | xargs kill -9
+
+}
+
+starthttpd()
+{
+    STARTTIME=`date +"%s"`
+    COUNT=0
+    sleep 5
+    while true
+    do
+        RESULT=`curl --connect-timeout 1 -s $CHECK_STARTUP_URL`
+        ENDTIME=`date +"%s"`
+        COSTTIME=$(($ENDTIME - $STARTTIME))
+
+        if [ -z "$RESULT" ]; then
+            sleep 1
+            echo -n -e "\rWait Tomcat Start: $COSTTIME seconds"
+            continue
+        fi
+
+        COUNT=`echo $RESULT | grep -c -i OK`
+        if [ $COUNT -ge 1 ]; then
+            echo "HTTP Start in $COSTTIME seconds."
+            return
+        else
+            echo "ERROR: Start Tomcat Failed!!!"
+            exit
+        fi
+    done
+}
+
+usage() {
+    echo "Usage: xxx {start|stop|restart}"
+    exit 1;
+ }
+
+
+case "$ACTION" in
+    start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        stop
+        sleep 5
+        start
+    ;;
+    *)
+        usage
+    ;;
+esac

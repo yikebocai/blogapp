@@ -1,0 +1,15 @@
+#!/bin/bash
+WEB_APP_NAME=/home/admin/blogapp
+
+echo "start app deploy ..."
+echo "sync source code ..."
+cd $WEB_APP_NAME
+git pull
+
+echo "package into war ..."
+cd myapp
+rm -rf target/*.war
+lein ring uberwar
+
+echo "deploy is ok"
+
