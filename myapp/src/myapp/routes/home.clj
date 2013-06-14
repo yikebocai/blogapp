@@ -5,7 +5,7 @@
   (:require [myapp.views.layout :as layout]
             [myapp.util :as util]
             [myapp.models.loadblogs :as loadblogs]
-            [myapp.models.gitpull :as gitpull]
+            [myapp.models.sync :as synch]
             [myapp.models.db :as db]
             [myapp.models.config :as config]
             [myapp.models.login :as login]
@@ -33,23 +33,25 @@
   (if (util/islogin)
       (layout/render "sync.html"
         {:path (config/get-value "path")
-        :url (config/get-value "url")})
+        :url (config/get-value "url") })
       (redirect "/")
       ))
 
 (defn sync-page-submit [path url]
-  (layout/render 
+  (let [result (synch/sync-blog path url)]
+    (layout/render 
     "sync.html" 
     {:path path 
-     :url url
-     :result (gitpull/sync-blog path url)}))
+     :url url 
+     :result result
+     :error (.startsWith result "ERROR:")})))
 
 (defn config-page []
   (if (util/islogin)
   (layout/render 
     "config.html"
     {:path (config/get-value "path")
-     :url (config/get-value  "url")
+     :url (config/get-value  "url") 
      :period (config/get-value "period")
      :blogname (config/get-value "blogname")
      :email (config/get-value "email")
@@ -58,17 +60,18 @@
      })
   (redirect "/")))
 
-(defn config-page-submit [path url period blogname email password nickname]
+(defn config-page-submit [path  url period blogname email password nickname]
   (layout/render 
     "config.html" 
     {:path path 
      :url url  
+     
      :period period
      :blogname blogname
      :email email
      :password password
      :nickname nickname
-     :result (config/set-config path url period blogname email password nickname)
+     :result (config/set-config path  url period blogname email password nickname)
    }))
 
 (defn login-page[] 

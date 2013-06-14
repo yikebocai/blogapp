@@ -47,6 +47,11 @@
         (where {:id [= id]})
         ))
 
+;;delete old blogs before timestamp
+(defn delete-old-blogs [timestamp]
+  (delete blog
+    (where {:timestamp [< timestamp]})))
+
 (defn list-blog []
   (select blog 
   	(order :postdate :DESC)))

@@ -16,14 +16,14 @@
 			(and (= email "admin") (= password "yikebocai")) 
 			(and (= myemail email) (= mypwd (util/md5 password))))]
 		(do 
-			(timbre/info "valid username and password")
+			(timbre/debug "valid username and password")
 			(cond result (session/put! :username email))
 			(if result true false))))
 
 (defn signin [username password]
 	(if (nil? (session/get :username))
 		(valid username password)
-		(do (println "valid ok from session") true)))
+		(do (timbre/info "valid ok from session") true)))
 
 (defn signout [] 
 	(session/put! :username nil) )

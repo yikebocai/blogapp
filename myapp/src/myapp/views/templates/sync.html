@@ -20,7 +20,14 @@
 		<a class="close" data-dismiss="alert">x</a>
 		同步完毕！
 	</div>
-	{% endifequal %}
+	{% endifequal %} 
+
+	{% if error %} 
+	<div id="syncAlert" class="alert alert-error">
+		<a class="close" data-dismiss="alert">x</a>
+		{{result}}
+	</div>
+	{% endif %}
 </div>
 {% endblock %}
 
