@@ -23,8 +23,7 @@
     (where {:id [= id]})))
 
 (defn find-blog-by-name [name]
-  (select blog 
-    (fields :id)
+  (select blog  
     (where {:name [= name]})))
 
 (defn update-blog [id name title postdate]

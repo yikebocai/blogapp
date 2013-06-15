@@ -7,7 +7,7 @@
 <div class="row"> 
 	{% for blog in blogs %}
 
-	<div > <a href="/content?p={{blog.id}}">{{blog.postdate}} - {{blog.title}}</a> </div>  
+	<div > <a href="/blog?p={{blog.name}}">{{blog.postdate}} - {{blog.title}}</a> </div>  
 	<div ><br></div>
 	
 	{% endfor %}

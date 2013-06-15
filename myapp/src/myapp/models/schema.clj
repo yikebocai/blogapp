@@ -35,6 +35,7 @@
       )
     (sql/do-commands
       "CREATE INDEX postdate_index ON blog (postdate)"
+      "CREATE INDEX name_index ON blog (name)"
       "CREATE INDEX vote_index ON blog (vote)")
     ))
 

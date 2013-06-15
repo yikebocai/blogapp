@@ -1,7 +1,7 @@
 (ns myapp.models.sync
 	(:use [clojure.java.shell :only [sh]])
 	(:require 
-		[myapp.models.loadblogs :as loadblogs]
+		[myapp.models.blog :as blog]
 		[myapp.models.db :as db]
 		[taoensso.timbre :as timbre]
 		[noir.io :as io] ))
@@ -42,7 +42,7 @@
 (defn sync-db[path]
 	(let [timestamp (java.util.Date.)
 		dbresp
-		(let [bloglist (loadblogs/load-blog-list (str path "/src/"))
+		(let [bloglist (blog/load-blog-list (str path "/src/"))
 		      len (count bloglist)]
 		    (do
 		    (dotimes [x len]
@@ -51,9 +51,9 @@
 			    		name (:name blog)
 			    		title (:title blog)
 			    		postdate (:postdate blog)
-			    		ids (db/find-blog-by-name name)]
-			    		(if (= (count ids) 1) 
-			    			(let [resp (db/update-blog (:id (first ids)) name title postdate)]
+			    		rs (db/find-blog-by-name name)]
+			    		(if (= (count rs) 1) 
+			    			(let [resp (db/update-blog (:id (first rs)) name title postdate)]
 			    				(timbre/debug "update-blog:" name))
 			    			(let [resp (db/post-blog name title postdate)]
 			    				(timbre/debug "post-blog:" name))))))

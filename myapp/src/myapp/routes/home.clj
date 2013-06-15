@@ -4,7 +4,7 @@
         [ring.util.response :only [redirect]])
   (:require [myapp.views.layout :as layout]
             [myapp.util :as util]
-            [myapp.models.loadblogs :as loadblogs]
+            [myapp.models.blog :as blog]
             [myapp.models.sync :as synch]
             [myapp.models.db :as db]
             [myapp.models.config :as config]
@@ -25,9 +25,9 @@
 (defn about-page []
   (layout/render "about.html"))
 
-(defn content-page [p]
+(defn blog-page [p]
   (layout/render
-    "content.html" {:blog (loadblogs/load-blog-content p)}))
+    "blog.html" {:blog (blog/load-blog-content p)}))
 
 (defn sync-page []
   (if (util/islogin)
@@ -86,20 +86,24 @@
           :loginfailed true})
       )))
 
-(defn check-app []
-  (do (println "check-app")
-  (layout/render "ok.html")))
+;;app startup check
+(defn ok-page []
+  (layout/render "ok.html"))
+
+(defn tag-page [p]
+  (layout/render "tag.html"))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [] (home-page-submit))
+  (GET "/ok" [] (ok-page))
   (GET "/about" [] (about-page))
-  (GET "/content" [p] (content-page p))
+  (GET "/blog" [p] (blog-page p))
   (GET "/sync" [] (sync-page))
   (POST "/sync" [path url] (sync-page-submit path url))
   (GET "/config" [] (config-page))
   (POST "/config" [path url period blogname email password nickname] (config-page-submit path url period blogname email password nickname))
   (GET "/login" [] (login-page))
   (POST "/login" [username password] (login-page-submit username password)) 
-  (GET "/ok" [] (check-app))
+  (GET "/tag" [p] (tag-page p))
   )
