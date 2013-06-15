@@ -60,9 +60,9 @@
 			    					(timbre/debug "update-blog:" name)
 			    					(db/update-tags tags id)))
 			    			(let [resp (db/post-blog name title postdate)
-			    				  id (:id resp)]
+			    				  id (:scope_identity resp)]
 			    				(do 
-			    					(timbre/debug "post-blog:" resp)
+			    					(timbre/debug "post-blog:" id)
 			    					(db/update-tags tags id)))
 
 			    			))))

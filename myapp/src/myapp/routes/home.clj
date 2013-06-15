@@ -66,7 +66,6 @@
     "config.html" 
     {:path path 
      :url url  
-     
      :period period
      :blogname blogname
      :email email
