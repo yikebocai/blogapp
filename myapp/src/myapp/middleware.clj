@@ -2,6 +2,7 @@
 	(:use noir.request)
 	(:require 
 		[myapp.models.config :as config] 
+		[myapp.models.db :as db]
 		) )
 
 
@@ -9,6 +10,7 @@
 	( assoc {} 
 	   :blogname (config/get-value "blogname")
        :nickname (config/get-value "nickname") 
+       :tags (db/group-by-tag)
 ))
 
 (defn base-handler [handler]

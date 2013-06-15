@@ -14,6 +14,14 @@
 	(with-open [rdr (reader filename)]
 		(first (line-seq rdr))))
 
+;;second line
+;;Tag:java,jvm
+(defn read-tags [filename]
+  (with-open [rdr (reader filename)]
+    (let [tagline (nth (line-seq rdr) 2)]
+      (if (.startsWith (.toLowerCase tagline) "tag")
+        (.split (.substring tagline 4) ",")))))
+
 (defn read-content [filename]
 	(with-open [rdr (reader filename)]
 		(reduce str (doall (line-seq rdr)))))
@@ -40,12 +48,15 @@
       	     (if (< i cnt) 
       	     	(recur 
       	     		(conj bloglist 
-							(conj {}
-			  				{:postdate (first(clojure.string/split (nth blognames i) #"-"))}
-                {:name (nth blognames i)}
-			  				{:title (read-title (str path  (nth blognames i)))}
-			  				{:content (util/md->html (str path  (nth blognames i)))}
-			  				))
+                  (let [blogname   (nth blognames i)
+                        blogpath (str path blogname)]
+      							(conj {}
+      			  				{:postdate (first(clojure.string/split blogname #"-"))}
+                      {:name blogname}
+      			  				{:title (read-title blogpath)}
+                      {:tags (read-tags blogpath)}
+      			  				{:content (util/md->html blogpath)}
+      			  				)))
       	     		(inc i) )
       	     bloglist))))
 
@@ -53,14 +64,23 @@
 (defn load-blog-content [name]
   (let [filename  (:name (first (db/find-blog-by-name name)))
         postdate0 (first(clojure.string/split filename #"-"))
-        path (config/get-src-path)]
+        path (config/get-src-path)
+        tags (read-tags (str path filename))]
     (conj {} 
       {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}
       {:title (read-title (str path filename))}
+      {:tags tags}
+      {:hastag (if (> (count tags) 0) true)}
       {:content 
         ;remove the title
-        (let [html (util/md->html  (str path filename))]
-          (.substring html (.indexOf html "</p>"))  )})
+        (let [html (util/md->html  (str path filename))
+          offset (+ (.indexOf html "</p>") 4)
+          substr (.substring html offset)
+          offset2 (+ (.indexOf substr "</p>" 4))
+          substr2 (.substring substr offset2)]
+          (if (.startsWith (.toLowerCase substr) "<p>tag")
+            (str substr2)
+            (str substr)))})
     )
   )
 

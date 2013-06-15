@@ -3,20 +3,20 @@
    (:require  
     [myapp.models.db :as db] 
     [myapp.util :as util]
-    ))
+    [taoensso.timbre :as timbre]))
 
 (defn get-value [key]
 	(:value (first (db/find-config key))))
 
 (defn set-one-config [key value]
 	(if (nil? (get-value key)) 
-		(do (db/insert-config key value) (println "insert " key ":" value))
-		(do (db/update-config key value) (println "update " key ":" value))))
+		(do (db/insert-config key value) (timbre/debug "insert " key ":" value))
+		(do (db/update-config key value) (timbre/debug "update " key ":" value))))
 
 (defn set-config [path url period blogname email password nickname]
 	(let [encryptpwd (util/md5 password)]
 	(do
-		(println "set config")
+		(timbre/debug "set config")
 		(set-one-config "path" path)
 		(set-one-config "url" url)
 		(set-one-config "period" period)

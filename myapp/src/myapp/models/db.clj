@@ -5,8 +5,16 @@
 
 (defdb db schema/db-spec)
 
-(defentity blog)
+(declare tag)
+(defentity blog
+  (pk :id)
+  (has-many tag))
+
 (defentity config)
+(defentity tag
+  (pk :id)
+  (table :tag)
+  (belongs-to blog))
 
 (defn post-blog
   [name title postdate]
@@ -73,3 +81,59 @@
       {:timestamp (new java.util.Date) 
         :value value})
     (where {:key [= key]})))
+
+(defn group-by-tag []
+  (select tag 
+    (fields [:tag_name :name])
+    (aggregate (count :*) :count)
+    (group :tag_name)))
+
+(defn find-blog-by-tag [tagname]
+  (select blog 
+    (fields :name :title :postdate)
+    (where 
+      {:id [in 
+      (subselect tag
+      (fields :blog_id) 
+      (where {:tag_name tagname}))]})))
+
+(defn count-blog-by-tag [tagname]
+  (select tag 
+    (aggregate (count :*) :cnt)
+    (where {:tag_name tagname})))
+
+(defn find-tag [tagname blogid]
+  (select tag 
+    (where 
+      {:tag_name tagname
+        :blog_id blogid})))
+
+(defn update-tag [tagname blogid]
+  (update tag 
+    (set-fields
+    {:timestamp (new java.util.Date)})
+    (where 
+      {:tag_name tagname
+      :blog_id blogid})))
+
+(defn insert-tag [tagname blogid]
+  (insert tag 
+    (values {
+      :timestamp (new java.util.Date)
+      :tag_name tagname 
+      :blog_id blogid
+      })))
+
+(defn update-tags [tags blogid]
+  (if-not (and (nil? tags) (empty? tags))
+    (let [cnt (count tags)]
+      (dotimes [x cnt]
+        (let [tagname (nth tags x)
+          rs (find-tag tagname blogid)]
+          (if (= 1 (count rs))
+            (update-tag tagname blogid)
+            (insert-tag tagname blogid)))))))
+
+(defn delete-old-tags [timestamp]
+  (delete tag
+    (where {:timestamp [< timestamp]})))

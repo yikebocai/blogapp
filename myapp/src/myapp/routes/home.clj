@@ -9,6 +9,7 @@
             [myapp.models.db :as db]
             [myapp.models.config :as config]
             [myapp.models.login :as login]
+            [myapp.models.dbmanager :as dbmanager]
             [compojure.route :as route]
             ))
 
@@ -88,10 +89,25 @@
 
 ;;app startup check
 (defn ok-page []
-  (layout/render "ok.html"))
+  (str "ok"))
 
 (defn tag-page [p]
-  (layout/render "tag.html"))
+  (layout/render 
+    "tag.html"
+    {
+      :blogs (db/find-blog-by-tag p)
+      }))
+
+(defn dbmanager-page []
+  (layout/render "dbmanager.html"))
+
+(defn dbmanager-page-submit [tablename type]
+  (if (empty? tablename)
+    (str "please input the table name")
+    (case type
+      "init" (layout/render "dbmanager.html" {:init-result (dbmanager/init-table tablename)})
+      "show" (layout/render "dbmanager.html" {:rows (dbmanager/show-table tablename)})
+      "error")))
 
 (defroutes home-routes
   (GET "/" [] (home-page))
@@ -106,4 +122,7 @@
   (GET "/login" [] (login-page))
   (POST "/login" [username password] (login-page-submit username password)) 
   (GET "/tag" [p] (tag-page p))
+  (GET "/dbmanager" [] (dbmanager-page))
+  (POST "/dbmanager" [tablename type] (dbmanager-page-submit tablename type))
+
   )

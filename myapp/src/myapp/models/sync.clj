@@ -50,14 +50,24 @@
 			   	   (let [blog (nth bloglist x)
 			    		name (:name blog)
 			    		title (:title blog)
+			    		tags (:tags blog)
 			    		postdate (:postdate blog)
 			    		rs (db/find-blog-by-name name)]
 			    		(if (= (count rs) 1) 
-			    			(let [resp (db/update-blog (:id (first rs)) name title postdate)]
-			    				(timbre/debug "update-blog:" name))
-			    			(let [resp (db/post-blog name title postdate)]
-			    				(timbre/debug "post-blog:" name))))))
-		    (db/delete-old-blogs timestamp)))]
+			    			(let [id (:id (first rs))
+			    				resp (db/update-blog id name title postdate)]
+			    				(do 
+			    					(timbre/debug "update-blog:" name)
+			    					(db/update-tags tags id)))
+			    			(let [resp (db/post-blog name title postdate)
+			    				  id (:id resp)]
+			    				(do 
+			    					(timbre/debug "post-blog:" resp)
+			    					(db/update-tags tags id)))
+
+			    			))))
+		    (db/delete-old-blogs timestamp))
+		    (db/delete-old-tags timestamp))]
 			    (if (empty? dbresp) true false)))
 
 (defn sync-blog[path url]

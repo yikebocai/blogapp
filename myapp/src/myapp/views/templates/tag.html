@@ -4,5 +4,13 @@
 
 
 {% block content %}
-TODO
+<div class="row"> 
+	{% for blog in blogs %}
+
+	<div > <a href="/blog?p={{blog.name}}">{{blog.postdate}} - {{blog.title}}</a> </div>  
+	<div ><br></div>
+	
+	{% endfor %}
+</div>
+
 {% endblock %}

@@ -52,6 +52,7 @@
               {% if islogin %}
               <li><a href="/config">Config</a></li>
               <li><a href="/sync">Sync</a></li>
+              <li><a href="/dbmanager">DBManager</a></li>
               {% endif %}
               <li><a href="/about">About</a></li>
               
@@ -76,10 +77,9 @@
 <div class="row">
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav">
-          <li><a href="/tag?p=java"><i class="icon-chevron-right"></i> Java(3)</a></li>
-          <li><a href="/tag?p=clojure"><i class="icon-chevron-right"></i> Clojure(4) </a></li>
-          <li><a href="/tag?p=tech"><i class="icon-chevron-right"></i> Tech(10)</a></li>
-          <li><a href="/tag?p=life"><i class="icon-chevron-right"></i> Life(5)</a></li> 
+          {% for tag in tags %}
+          <li><a href="/tag?p={{tag.name}}"><i class="icon-chevron-right"></i> {{tag.name}}({{tag.count}})</a></li>
+          {% endfor %}
         </ul>
       </div>
 
