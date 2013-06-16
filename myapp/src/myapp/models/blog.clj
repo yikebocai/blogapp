@@ -7,9 +7,6 @@
     [myapp.models.config :as config]
     ))
 
-;;define blog object
-(defrecord blog [postdate title content])
-
 (defn read-title [filename]
 	(with-open [rdr (reader filename)]
 		(first (line-seq rdr))))
