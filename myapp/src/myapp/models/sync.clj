@@ -30,7 +30,7 @@
 						   (timbre/error "git clone error:" error))))))
 			 
 			(let [src (str path "/src/myimg")
-				  dst (str (io/resource-path) "/myimg")
+				  dst (str (io/resource-path) "/")
 				  cpresp (sh "cp" "-rf"  src dst)
 				  error (:err cpresp)]
 				(do 
