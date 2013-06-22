@@ -90,7 +90,7 @@
 
 (defn find-blog-by-tag [tagname]
   (select blog 
-    (fields :name :title :postdate)
+    (fields :id :name :title :postdate)
     (where 
       {:id [in 
       (subselect tag
@@ -107,6 +107,12 @@
     (where 
       {:tag_name tagname
         :blog_id blogid})))
+
+(defn find-tag-by-blogid [blogid]
+  (select tag 
+    (fields :tag_name)
+    (where 
+      {:blog_id blogid})))
 
 (defn update-tag [tagname blogid]
   (update tag 

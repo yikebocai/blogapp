@@ -58,8 +58,7 @@
 
 .started {
     float: right;
-    margin-right: 10px;
-    width: 185px;
+    margin-right: 10px; 
     font-style: italic;
     font-size: 14px;
     color: gray;

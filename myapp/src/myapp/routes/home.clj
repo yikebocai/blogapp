@@ -15,7 +15,7 @@
 
 (defn home-page []
   (layout/render "home.html" 
-    {:blogs (db/list-blog)}))
+    {:blogs (blog/list-blog-summary)}))
 
 (defn home-page-submit []
   (let [referer (util/get-header "referer")]

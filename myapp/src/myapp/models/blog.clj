@@ -7,6 +7,12 @@
     [myapp.models.config :as config]
     ))
 
+(defn format-postdate [postdate]
+  (str 
+    (.substring postdate 0 4) "/" 
+    (.substring postdate 4 6) "/" 
+    (.substring postdate 6)))
+
 (defn read-title [filename]
 	(with-open [rdr (reader filename)]
 		(first (line-seq rdr))))
@@ -64,7 +70,7 @@
         path (config/get-src-path)
         tags (read-tags (str path filename))]
     (conj {} 
-      {:postdate (str (.substring postdate0 0 4) "/" (.substring postdate0 4 6) "/" (.substring postdate0 6))}
+      {:postdate (format-postdate postdate0)}
       {:title (read-title (str path filename))}
       {:tags tags}
       {:hastag (if (> (count tags) 0) true)}
@@ -81,6 +87,25 @@
     )
   )
 
-
+;;home page show or tag search show
+(defn list-blog-summary [& tag]
+  (let [dblist (if (or (nil? tag) (empty? tag)) (db/list-blog)  (db/find-blog-by-tag tag))
+       cnt (count dblist)]
+    (do (println cnt)
+     (loop [bloglist []
+             i 0]
+             (if (< i cnt) 
+              (recur 
+                (conj bloglist 
+                  (let [blog  (nth dblist i)]
+                    (conj {}
+                      {:postdate (format-postdate (.toString (:postdate blog)))}
+                      {:name (:name blog)}
+                      {:title (:title blog)}
+                      {:tags (db/find-tag-by-blogid (:id blog))}
+                      {:summary (:summary blog)}
+                      )))
+                (inc i) )
+             bloglist)))))
 
 
