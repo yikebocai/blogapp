@@ -11,6 +11,7 @@
                  [markdown-clj "0.9.21"]
                  [com.h2database/h2 "1.3.170"]
                  [korma "0.3.0-RC5"]
+                 [clojure-soup "0.0.1"]
                  ]
   :plugins [[lein-ring "0.8.3"]]
   :ring {:handler myapp.handler/war-handler

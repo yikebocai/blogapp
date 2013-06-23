@@ -28,6 +28,7 @@
       [:timestamp :timestamp] 
       [:name "varchar(100)"]    ;md file name
       [:title "varchar(100)"]   ;blog title
+      [:summary "varchar(256)"] ;blog summary
       [:postdate "INTEGER"]     ;blog post date
       [:pageview "INTEGER"]
       [:vote "INTEGER"] 
@@ -63,11 +64,11 @@
       :tag 
       [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp]
-      [:tag_name "varchar(100)"]
-      [:blog_id "INTEGER"]
+      [:name "varchar(100)"]
+      [:blogid "INTEGER"]
       )
     (jdbc/do-commands
-      "CREATE INDEX tag_name_index ON tag (tag_name)")
+      "CREATE INDEX tag_name_index ON tag (name)")
     ))
 
 (defn create-tables

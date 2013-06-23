@@ -17,13 +17,14 @@
   (belongs-to blog))
 
 (defn post-blog
-  [name title postdate]
+  [postdate name title summary]
   (insert blog 
     (values {
       :timestamp (new java.util.Date)
-    	:name name 
-      :title title
       :postdate postdate 
+      :name name 
+      :title title
+      :summary summary
         })))
 
 (defn find-blog [id]
@@ -34,13 +35,14 @@
   (select blog  
     (where {:name [= name]})))
 
-(defn update-blog [id name title postdate]
+(defn update-blog [id postdate name title summary]
   (update blog 
   	(set-fields
        {:timestamp (new java.util.Date)
+        :postdate postdate 
         :name name
         :title title
-        :postdate postdate })
+        :summary summary})
         (where {:id [= id]})
         ))
 
@@ -84,50 +86,49 @@
 
 (defn group-by-tag []
   (select tag 
-    (fields [:tag_name :name])
+    (fields [:name])
     (aggregate (count :*) :count)
-    (group :tag_name)))
+    (group :name)))
 
 (defn find-blog-by-tag [tagname]
-  (select blog 
-    (fields :id :name :title :postdate)
+  (select blog  
     (where 
       {:id [in 
       (subselect tag
-      (fields :blog_id) 
-      (where {:tag_name tagname}))]})))
+      (fields :blogid) 
+      (where {:name tagname}))]})))
 
 (defn count-blog-by-tag [tagname]
   (select tag 
     (aggregate (count :*) :cnt)
-    (where {:tag_name tagname})))
+    (where {:name tagname})))
 
 (defn find-tag [tagname blogid]
   (select tag 
     (where 
-      {:tag_name tagname
-        :blog_id blogid})))
+      {:name tagname
+        :blogid blogid})))
 
 (defn find-tag-by-blogid [blogid]
   (select tag 
-    (fields :tag_name)
+    (fields :name)
     (where 
-      {:blog_id blogid})))
+      {:blogid blogid})))
 
 (defn update-tag [tagname blogid]
   (update tag 
     (set-fields
     {:timestamp (new java.util.Date)})
     (where 
-      {:tag_name tagname
-      :blog_id blogid})))
+      {:name tagname
+      :blogid blogid})))
 
 (defn insert-tag [tagname blogid]
   (insert tag 
     (values {
       :timestamp (new java.util.Date)
-      :tag_name tagname 
-      :blog_id blogid
+      :name tagname 
+      :blogid blogid
       })))
 
 (defn update-tags [tags blogid]

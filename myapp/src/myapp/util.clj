@@ -1,8 +1,10 @@
 (ns myapp.util
-  (:use [noir.request])
+  (:use 
+    [noir.request])
   (:require 
             [markdown.core :as md]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [jsoup.soup :as soup] ))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -38,5 +40,10 @@
 
 (defn get-header [header]
   (nth (nth (filter #(.contains % header) (:headers *request*)) 0) 1))
+
+(defn strip-html-tags
+  "Function strips HTML tags from string."
+  [s]
+  (.text (soup/parse s)))
 
 

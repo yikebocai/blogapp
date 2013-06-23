@@ -48,19 +48,20 @@
 		    (dotimes [x len]
 			   (do
 			   	   (let [blog (nth bloglist x)
+			    		postdate (:postdate blog)
 			    		name (:name blog)
 			    		title (:title blog)
+			    		summary (:summary blog)
 			    		tags (:tags blog)
-			    		postdate (:postdate blog)
 			    		rs (db/find-blog-by-name name)]
 			    		(if (= (count rs) 1) 
 			    			(let [id (:id (first rs))
-			    				resp (db/update-blog id name title postdate)]
+			    				resp (db/update-blog id postdate name title summary)]
 			    				(do 
 			    					(timbre/debug "update-blog:" name)
 			    					(timbre/debug "tags:" tags)
 			    					(db/update-tags tags id)))
-			    			(let [resp (db/post-blog name title postdate)
+			    			(let [resp (db/post-blog postdate name title summary)
 			    				  id (first (vals resp))]
 			    				(do 
 			    					(timbre/debug "post-blog:" id)

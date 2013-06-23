@@ -25,9 +25,25 @@
       (if (.startsWith (.toLowerCase tagline) "tag")
         (.split (.substring tagline 4) ",")))))
 
+;remove the title and tags
 (defn read-content [filename]
-	(with-open [rdr (reader filename)]
-		(reduce str (doall (line-seq rdr)))))
+  (let [html (util/md->html  filename) 
+    offset (+ (.indexOf html "</p>") 4)
+    substr (.substring html offset) 
+    offset2 (+ (.indexOf substr "</p>" 4))
+    substr2 (if (> offset2 4) (.substring substr offset2))]
+    (if (.startsWith (.toLowerCase substr) "<p>tag")
+      (str substr2)
+      (str substr))))
+
+;;read first 80 words after remove html tags
+(defn read-summary [filename]
+  (let [content (read-content filename) 
+        txt (util/strip-html-tags content) 
+        len (count txt)]
+        (if (> len 80) (.substring txt 0 80) (str txt))))
+
+
 
 ;;list all blog source files
 (defn list-blog-sources [path]
@@ -58,32 +74,29 @@
                       {:name blogname}
       			  				{:title (read-title blogpath)}
                       {:tags (read-tags blogpath)}
-      			  				{:content (util/md->html blogpath)}
+                      {:summary (read-summary blogpath)} 
       			  				)))
       	     		(inc i) )
       	     bloglist))))
 
 ;;load blog content by blog name
 (defn load-blog-content [name]
-  (let [filename  (:name (first (db/find-blog-by-name name)))
+  (let [blog (first (db/find-blog-by-name name))
+        filename  (:name blog)
         postdate0 (first(clojure.string/split filename #"-"))
         path (config/get-src-path)
-        tags (read-tags (str path filename))]
-    (conj {} 
+        blogpath (str path filename)
+        tags (read-tags blogpath) 
+        pageview (if (nil? (:pageview blog)) 0 (:pageview blog))]
+    (do 
+      (db/update-blog-stat (:id blog)  (+ 1 pageview) 0 0)
+      (conj {} 
       {:postdate (format-postdate postdate0)}
       {:title (read-title (str path filename))}
       {:tags tags}
       {:hastag (if (> (count tags) 0) true)}
-      {:content 
-        ;remove the title
-        (let [html (util/md->html  (str path filename))
-          offset (+ (.indexOf html "</p>") 4)
-          substr (.substring html offset)
-          offset2 (+ (.indexOf substr "</p>" 4))
-          substr2 (.substring substr offset2)]
-          (if (.startsWith (.toLowerCase substr) "<p>tag")
-            (str substr2)
-            (str substr)))})
+      {:content (read-content blogpath)})
+      )
     )
   )
 
@@ -91,21 +104,23 @@
 (defn list-blog-summary [& tag]
   (let [dblist (if (or (nil? tag) (empty? tag)) (db/list-blog)  (db/find-blog-by-tag tag))
        cnt (count dblist)]
-    (do (println cnt)
      (loop [bloglist []
              i 0]
              (if (< i cnt) 
               (recur 
                 (conj bloglist 
-                  (let [blog  (nth dblist i)]
+                  (let [blog  (nth dblist i)
+                        pageview (:pageview blog)]
                     (conj {}
                       {:postdate (format-postdate (.toString (:postdate blog)))}
                       {:name (:name blog)}
                       {:title (:title blog)}
                       {:tags (db/find-tag-by-blogid (:id blog))}
-                      {:summary (:summary blog)}
+                      {:summary (do (println "summary:" (:summary blog)) (:summary blog))}
+                      {:pageview (if (nil? pageview) 0 pageview)}
+                      {:comment 0} ;todo
                       )))
                 (inc i) )
-             bloglist)))))
+             bloglist))))
 
 

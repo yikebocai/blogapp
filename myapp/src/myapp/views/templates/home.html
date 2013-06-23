@@ -13,12 +13,12 @@
 				<div class="vote">
 					<div class="votes">
 						<span class="vote-count-post">
-							<strong><span style="font-size: 20px;">12344</span></strong>
+							<strong><span style="font-size: 20px;">{{blog.pageview}}</span></strong>
 						</span>
 						<div class="viewcount">阅读</div>
 					</div>
 					<div class="answered">
-						<strong>2340</strong>
+						<strong>{{blog.comment}}</strong>
 						<div class="viewcount">评论</div>
 					</div>
 				</div>
@@ -27,11 +27,10 @@
 		<div class="summary">
 			<div class="started">{{blog.postdate}}</div>
 			<div><h4><a href="/blog?p={{blog.name}}">{{blog.title}}</a></h4> </div>
-			<div> 我，似乎被卡住了，努力挣扎却动弹不得。耳边隐约听到你的低语，眼前却一片朦胧。片刻之后，世界好像变得安静一些了，我努力抬起双脚，感觉自己漂浮在空中… … 
-			</div>
+			<div>{{blog.summary}}… …</div>
 			<div class="tags t-books t-free t-ebook t-creative-commons">
 				{% for tag in blog.tags %}
-				<a class="post-tag" href="/tag?p={{tag.tag_name}}">{{tag.tag_name}}</a>
+				<a class="post-tag" href="/tag?p={{tag.name}}">{{tag.name}}</a>
 				{% endfor %}
 			</div>
 
