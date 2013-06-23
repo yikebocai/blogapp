@@ -19,13 +19,14 @@
     border-radius: 4px 4px 4px 4px;
     margin: 0;
     padding: 5px;
+    font-size: 14px;
 }
 
-.votes {
-    color: #555555;
+.pageview {
+    color: #555555;  
 }
 
-.answered {
+.comment {
     background-color: #7E91BD;
     border-radius: 4px 4px 4px 4px;
     color: #FFFFFF;
@@ -56,7 +57,7 @@
     white-space: nowrap;
 }
 
-.started {
+.post-date {
     float: right;
     margin-right: 10px; 
     font-style: italic;
