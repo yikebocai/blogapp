@@ -5,8 +5,7 @@
   (:require [myapp.views.layout :as layout]
             [myapp.util :as util]
             [myapp.models.blog :as blog]
-            [myapp.models.sync :as synch]
-            [myapp.models.db :as db]
+            [myapp.models.sync :as synch] 
             [myapp.models.config :as config]
             [myapp.models.login :as login]
             [myapp.models.dbmanager :as dbmanager]
@@ -94,7 +93,7 @@
   (layout/render 
     "tag.html"
     {
-      :blogs (db/find-blog-by-tag p)
+      :blogs (blog/list-blog-summary p)
       }))
 
 (defn dbmanager-page []

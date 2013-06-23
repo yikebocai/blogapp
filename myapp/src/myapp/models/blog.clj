@@ -110,6 +110,7 @@
               (recur 
                 (conj bloglist 
                   (let [blog  (nth dblist i)
+                        t1 (println blog)
                         pageview (:pageview blog)]
                     (conj {}
                       {:postdate (format-postdate (.toString (:postdate blog)))}

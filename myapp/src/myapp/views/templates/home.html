@@ -11,21 +11,21 @@
 		<div class="statscontainer">
 			<div class="stats">
 				<div class="vote">
-					<div class="votes">
-						<span class="vote-count-post">
+					<div class="pageview">
+						<span>
 							<strong><span style="font-size: 20px;">{{blog.pageview}}</span></strong>
 						</span>
-						<div class="viewcount">阅读</div>
+						<div>阅读</div>
 					</div>
-					<div class="answered">
+					<div class="comment">
 						<strong>{{blog.comment}}</strong>
-						<div class="viewcount">评论</div>
+						<div>评论</div>
 					</div>
 				</div>
 			</div> 
 		</div>
 		<div class="summary">
-			<div class="started">{{blog.postdate}}</div>
+			<div class="post-date">{{blog.postdate}}</div>
 			<div><h4><a href="/blog?p={{blog.name}}">{{blog.title}}</a></h4> </div>
 			<div>{{blog.summary}}… …</div>
 			<div class="tags t-books t-free t-ebook t-creative-commons">
