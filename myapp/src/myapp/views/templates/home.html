@@ -18,7 +18,7 @@
 						<div>阅读</div>
 					</div>
 					<div class="comment">
-						<strong>{{blog.comment}}</strong>
+						<strong><a href="/blog?p={{blog.name}}" id="uyan_count_unit"></a><strong>
 						<div>评论</div>
 					</div>
 				</div>
@@ -41,4 +41,6 @@
 </div>
 
 {% endblock %}
+
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=0"></script>  
 
