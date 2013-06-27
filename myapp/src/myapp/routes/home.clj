@@ -9,6 +9,7 @@
             [myapp.models.config :as config]
             [myapp.models.login :as login]
             [myapp.models.dbmanager :as dbmanager]
+            [myapp.models.feed :as feed]
             [compojure.route :as route]
             ))
 
@@ -107,6 +108,9 @@
       "show" (layout/render "dbmanager.html" {:rows (dbmanager/show-table tablename)})
       "error")))
 
+(defn feed-page []
+  (layout/render "feed.html" {:feed (feed/create-feeds)}))
+
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [] (home-page-submit))
@@ -122,5 +126,6 @@
   (GET "/tag" [p] (tag-page p))
   (GET "/dbmanager" [] (dbmanager-page))
   (POST "/dbmanager" [tablename type] (dbmanager-page-submit tablename type))
+  (GET "/feed" [] (feed-page))
 
   )

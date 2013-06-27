@@ -110,14 +110,13 @@
               (recur 
                 (conj bloglist 
                   (let [blog  (nth dblist i)
-                        t1 (println blog)
                         pageview (:pageview blog)]
                     (conj {}
                       {:postdate (format-postdate (.toString (:postdate blog)))}
                       {:name (:name blog)}
                       {:title (:title blog)}
                       {:tags (db/find-tag-by-blogid (:id blog))}
-                      {:summary (do (println "summary:" (:summary blog)) (:summary blog))}
+                      {:summary (:summary blog)}
                       {:pageview (if (nil? pageview) 0 pageview)}
                       {:comment 0} ;todo
                       )))

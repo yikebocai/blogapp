@@ -56,20 +56,19 @@
               <li><a href="/dbmanager">DBManager</a></li>
               {% endif %}
               <li><a href="/about">About</a></li>
-              
+              <li><a href="/feed">Rss</a></li>
             </ul>
             <form action="/" method="POST" class="navbar-form pull-right">
-            {% if islogin %} 
-             <ul class="nav">
-               <li><a >欢迎，{{nickname}}</a></li>
-               <button type="submit" class="btn btn-link">退出</button>
-             </ul>
-            {% else %}
-             <ul class="nav">
-               <li><a href="/login">登陆</a></li> 
-             </ul>
-            {% endif %}
+              <ul class="nav">
+              {% if islogin %} 
+                 <li><a >欢迎，{{nickname}}</a></li>
+                 <button type="submit" class="btn btn-link">退出</button>
+              {% else %}
+                 <li><a href="/login">登陆</a></li> 
+              {% endif %}           
+              </ul>
             </form>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>
