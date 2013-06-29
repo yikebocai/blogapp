@@ -3,6 +3,7 @@
 	(:require 
 		[myapp.models.config :as config] 
 		[myapp.models.db :as db]
+		[taoensso.timbre :as timbre]
 		) )
 
 
@@ -17,6 +18,7 @@
 	(fn [req] 
 		(let [wrap-req (assoc req :context (set-context))
 				  resp (handler wrap-req)]
-			;(println resp)
-			resp)))
+			(do 
+				(timbre/debug "response:" resp)
+				resp))))
 

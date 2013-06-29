@@ -11,6 +11,7 @@
             [myapp.models.dbmanager :as dbmanager]
             [myapp.models.feed :as feed]
             [compojure.route :as route]
+            [noir.response :as resp]
             ))
 
 (defn home-page []
@@ -86,10 +87,6 @@
           :loginfailed true})
       )))
 
-;;app startup check
-(defn ok-page []
-  (str "ok"))
-
 (defn tag-page [p]
   (layout/render 
     "tag.html"
@@ -108,13 +105,10 @@
       "show" (layout/render "dbmanager.html" {:rows (dbmanager/show-table tablename)})
       "error")))
 
-(defn feed-page []
-  (layout/render "feed.html" {:feed (feed/create-feeds)}))
-
 (defroutes home-routes
   (GET "/" [] (home-page))
   (POST "/" [] (home-page-submit))
-  (GET "/ok" [] (ok-page))
+  (GET "/ok" [] (str "ok"))
   (GET "/about" [] (about-page))
   (GET "/blog" [p] (blog-page p))
   (GET "/sync" [] (sync-page))
@@ -126,6 +120,6 @@
   (GET "/tag" [p] (tag-page p))
   (GET "/dbmanager" [] (dbmanager-page))
   (POST "/dbmanager" [tablename type] (dbmanager-page-submit tablename type))
-  (GET "/feed" [] (feed-page))
+  (GET "/feed" [] (resp/content-type "application/xml; charset=utf-8"   (feed/create-feeds)))
 
   )
