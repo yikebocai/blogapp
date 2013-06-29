@@ -116,7 +116,7 @@
                       {:name (:name blog)}
                       {:title (:title blog)}
                       {:tags (db/find-tag-by-blogid (:id blog))}
-                      {:summary (:summary blog)}
+                      {:summary (str (:summary blog) "… …")}
                       {:pageview (if (nil? pageview) 0 pageview)}
                       {:comment 0} ;todo
                       )))
