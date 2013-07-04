@@ -19,6 +19,6 @@
 		(let [wrap-req (assoc req :context (set-context))
 				  resp (handler wrap-req)]
 			(do 
-				(timbre/debug "response:" resp)
+				;(timbre/debug "response:" resp)
 				resp))))
 

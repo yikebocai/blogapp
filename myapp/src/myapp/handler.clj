@@ -6,6 +6,7 @@
             [taoensso.timbre :as timbre] 
             [myapp.models.schema :as schema]
             [myapp.middleware :as mymiddleware]
+            [myapp.models.quartzite :as quartz]
             ))
 
 (defroutes app-routes
@@ -22,9 +23,10 @@
   ;;init the database if needed
   (timbre/info (str "db initialized ? : " (schema/initialized?)))
   (if-not (schema/initialized?) (schema/create-tables)) 
-
   (timbre/info "myapp started successfully")
 
+  (quartz/myschedule)
+  (timbre/info "myapp quartzite start")
   )
 
 (defn destroy

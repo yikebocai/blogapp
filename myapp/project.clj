@@ -13,6 +13,7 @@
                  [korma "0.3.0-RC5"]
                  [clojure-soup "0.0.1"]
                  [clj-rss "0.1.3"]
+                 [clojurewerkz/quartzite "1.0.1"]
                  ]
   :plugins [[lein-ring "0.8.3"]]
   :ring {:handler myapp.handler/war-handler

@@ -6,7 +6,7 @@
 		[taoensso.timbre :as timbre]
 		[noir.io :as io] ))
 
-(defn sync-github[path url] 
+(defn- sync-github[path url] 
 	;if path is exist
 	(let [mypath (java.io.File. path)
 		  gitdir (str "--git-dir=" path "/.git")
@@ -39,7 +39,7 @@
 )
 
 ;;sync database
-(defn sync-db[path]
+(defn- sync-db[path]
 	(let [timestamp (java.util.Date.)
 		dbresp
 		(let [bloglist (blog/load-blog-list (str path "/src/"))
