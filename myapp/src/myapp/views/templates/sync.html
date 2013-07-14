@@ -3,44 +3,49 @@
 
 {% block content %}
 
-<div class="row">  
-	<div ><h3>同步Markdown源文件</h3></div> 
+<div class="row">
+    <div><h3>同步Markdown源文件</h3></div>
 
-	<div>
-	<form id="syncForm" action="/sync" method="POST">
-		本地目录：<input type="text"  class="span4" readonly="readonly" name="path" value={{path}}></input><p></p>
-	    同步URL：<input type="text"  class="span4" readonly="readonly" name="url" value={{url}}></input><p></p>
-	    <p> 
-  		<div id="syncBtn" class="btn btn-primary">同步</div>
-	</form>
-	</div>
-	
-	{% ifequal result "OK" %}
-	<div id="syncAlert" class="alert alert-success">
-		<a class="close" data-dismiss="alert">x</a>
-		同步完毕！
-	</div>
-	{% endifequal %} 
+    <div>
+        <form id="syncForm" action="/sync" method="POST">
+            本地目录：<input type="text" class="span4" readonly="readonly" name="path" value={{path}}/>
 
-	{% if error %} 
-	<div id="syncAlert" class="alert alert-error">
-		<a class="close" data-dismiss="alert">x</a>
-		{{result}}
-	</div>
-	{% endif %}
+            <p></p>
+            同步URL：<input type="text" class="span4" readonly="readonly" name="url" value={{url}}/>
+
+            <p></p>
+
+            <div id="syncBtn" class="btn btn-primary">同步</div>
+        </form>
+    </div>
+
+    {% ifequal result "OK" %}
+    <div id="syncAlert" class="alert alert-success">
+        <a class="close" data-dismiss="alert">x</a>
+        同步完毕！
+    </div>
+    {% endifequal %}
+
+    {% if error %}
+    <div id="syncAlert2" class="alert alert-error">
+        <a class="close" data-dismiss="alert">x</a>
+        {{result}}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
 <!-- click button event  -->
 <script type="text/javascript">
-jQuery(document).ready(function(){
-	$("#syncBtn").click(function(){
-		//alert('test');
-		$("#syncAlert").hide();
-   		$("#syncForm").submit();
+    jQuery(document).ready(function(){
+    $("#syncBtn").click(function(){
+    //alert('test');
+    $("#syncAlert").hide();
+    $("#syncAlert2").hide();
+    $("#syncForm").submit();
 
-   });
+    });
 
-});
+    });
 </script>
 

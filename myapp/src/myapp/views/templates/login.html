@@ -4,28 +4,29 @@
 {% block content %}
 
 <div class="container">
-	<div class="row">
-		<div class="span4  well">
-			<legend>Please Sign In</legend>
+    <div class="row">
+        <div class="span4  well">
+            <legend>Please Sign In</legend>
 
-			{% if loginfailed  %} 
-          	<div class="alert alert-error">
+            {% if loginfailed %}
+            <div class="alert alert-error">
                 <a class="close" data-dismiss="alert" href="#">×</a>
                 Incorrect Username or Password!
             </div>
             {% endif %}
-			<form method="POST" action="/login" accept-charset="UTF-8">
-			<input type="text" id="username" class="span4" name="username" placeholder="Username"
-			value={{username}}>
-			<input type="password" id="password" class="span4" name="password" placeholder="Password" value={{password}}>
-            <label class="checkbox">
-            	<input type="checkbox" name="remember" value="1"> Remember Me</input>
-            </label>
-			<button type="submit" name="submit" class="btn btn-info btn-block">Sign in</button>
-			</form>    
-		</div>
-	</div>
-</div>		
+            <form method="POST" action="/login" accept-charset="UTF-8">
+                <input type="text" id="username" class="span4" name="username" placeholder="Username"
+                       value={{username}}>
+                <input type="password" id="password" class="span4" name="password" placeholder="Password"
+                       value={{password}}>
+                <label class="checkbox">
+                    <input type="checkbox" name="remember" value="1"> Remember Me</input>
+                </label>
+                <button type="submit" name="submit" class="btn btn-info btn-block">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

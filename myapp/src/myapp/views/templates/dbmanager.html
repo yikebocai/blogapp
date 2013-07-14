@@ -1,54 +1,54 @@
-
 {% extends "myapp/views/templates/base.html" %}
 
 
-
 {% block content %}
-<div class="row">  
-	<div ><h3>数据库管理</h3></div> 
+<div class="row">
+    <div><h3>数据库管理</h3></div>
 
-	<div>
-	<form id="dbForm" action="/dbmanager" method="POST">
-		<input type="text"  class="span4"  name="tablename" placeholder="请输入数据库表名，如：config"></input>
-		<input type="hidden"  class="span4" id="type" name="type" value=""></input>
-	    <p> 
-  		<div id="initBtn" class="btn btn-primary">初始化表</div>
-  		<div id="showBtn" class="btn btn-primary">查询表内容</div>
-	</form>
-	</div>
-	
-	{% if init-result %}
-	<div id="initAlert" class="alert alert-success">
-		<a class="close" data-dismiss="alert">x</a>
-		表初始化完毕！
-	</div>
-	{% endif %}
-	
-	{% for row in rows %}
+    <div>
+        <form id="dbForm" action="/dbmanager" method="POST">
+            <input type="text" class="span4" name="tablename" placeholder="请输入数据库表名，如：config"/>
+            <input type="hidden" class="span4" id="type" name="type" value=""/>
 
-	<div > {{row}} </div>  
-	
-	{% endfor %}
+            <p>
+
+            <div id="initBtn" class="btn btn-primary">初始化表</div>
+            <div id="showBtn" class="btn btn-primary">查询表内容</div>
+        </form>
+    </div>
+
+    {% if init-result %}
+    <div id="initAlert" class="alert alert-success">
+        <a class="close" data-dismiss="alert">x</a>
+        表初始化完毕！
+    </div>
+    {% endif %}
+
+    {% for row in rows %}
+
+    <div> {{row}}</div>
+
+    {% endfor %}
 </div>
-  
+
 {% endblock %}
 
 <!-- click button event  -->
 <script type="text/javascript">
-jQuery(document).ready(function(){
-	$("#initBtn").click(function(){
-		//alert('test1');
-		$("#initAlert").hide();
-		$("#type").val("init");
-   		$("#dbForm").submit();
-   });
+    jQuery(document).ready(function(){
+    $("#initBtn").click(function(){
+    //alert('test1');
+    $("#initAlert").hide();
+    $("#type").val("init");
+    $("#dbForm").submit();
+    });
 
-	$("#showBtn").click(function(){
-		//alert('test2');
-		//$("#initAlert").hide();
-		$("#type").val("show");
-   		$("#dbForm").submit();
-   });
+    $("#showBtn").click(function(){
+    //alert('test2');
+    //$("#initAlert").hide();
+    $("#type").val("show");
+    $("#dbForm").submit();
+    });
 
-});
+    });
 </script>

@@ -1,43 +1,44 @@
-
 {% extends "myapp/views/templates/base.html" %}
 
 
 {% block content %}
 
-<div class="row"> 
-	{% for blog in blogs %}
+<div class="row">
+    {% for blog in blogs %}
 
-	<div class="blog-summary">
-		<div class="statscontainer">
-			<div class="stats">
-				<div class="vote">
-					<div class="pageview">
+    <div class="blog-summary">
+        <div class="statscontainer">
+            <div class="stats">
+                <div class="vote">
+                    <div class="pageview">
 						<span>
 							<strong><span style="font-size: 20px;">{{blog.pageview}}</span></strong>
 						</span>
-						<div>阅读</div>
-					</div>
-					<div class="comment">
-						<strong>{{blog.comment}}</strong>
-						<div>评论</div>
-					</div>
-				</div>
-			</div> 
-		</div>
-		<div class="summary">
-			<div class="post-date">{{blog.postdate}}</div>
-			<div><h4><a href="/blog?p={{blog.name}}">{{blog.title}}</a></h4> </div>
-			<div>{{blog.summary}}… …</div>
-			<div class="tags t-books t-free t-ebook t-creative-commons">
-				{% for tag in blog.tags %}
-				<a class="post-tag" href="/tag?p={{tag.name}}">{{tag.name}}</a>
-				{% endfor %}
-			</div>
 
-		</div> 
-	</div>
-	
-	{% endfor %}
+                        <div>阅读</div>
+                    </div>
+                    <div class="comment">
+                        <strong>{{blog.comment}}</strong>
+
+                        <div>评论</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="summary">
+            <div class="post-date">{{blog.postdate}}</div>
+            <div><h4><a href="/blog?p={{blog.name}}">{{blog.title}}</a></h4></div>
+            <div>{{blog.summary}}… …</div>
+            <div class="tags t-books t-free t-ebook t-creative-commons">
+                {% for tag in blog.tags %}
+                <a class="post-tag" href="/tag?p={{tag.name}}">{{tag.name}}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+    {% endfor %}
 </div>
 
 {% endblock %}

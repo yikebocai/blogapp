@@ -1,10 +1,8 @@
 (ns myapp.util
-  (:use 
-    [noir.request])
-  (:require 
-            [markdown.core :as md]
+  (:use [noir.request])
+  (:require [markdown.core :as md]
             [noir.session :as session]
-            [jsoup.soup :as soup] ))
+            [jsoup.soup :as soup]))
 
 (defn format-time
   "formats the time using SimpleDateFormat, the default format is
@@ -18,23 +16,23 @@
   [filename]
   (->>
     (slurp filename)
-    (md/md-to-html-string) ))
+    (md/md-to-html-string)))
 
 (defn encrypt [algorithm orig]
   (let [inst (java.security.MessageDigest/getInstance algorithm)
-    size (* 2 (.getDigestLength inst))
-    raw (.digest inst (.getBytes orig))
-    sig (.toString (java.math.BigInteger. 1 raw) 16)
-    padding (apply str (repeat (- size (count sig)) "0"))
-    ]
+        size (* 2 (.getDigestLength inst))
+        raw (.digest inst (.getBytes orig))
+        sig (.toString (java.math.BigInteger. 1 raw) 16)
+        padding (apply str (repeat (- size (count sig)) "0"))
+        ]
     (str padding sig)))
 
 (defn md5 [orig]
   (encrypt "MD5" orig))
 
 (defn islogin []
-  (let [islgn (not (nil? (session/get :username)))]
-    (do 
+  (let [islgn (not (nil? (session/get :username )))]
+    (do
       (println "islogin:" islgn)
       (true? islgn))))
 

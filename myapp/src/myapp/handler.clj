@@ -3,7 +3,7 @@
         compojure.core)
   (:require [noir.util.middleware :as middleware]
             [compojure.route :as route]
-            [taoensso.timbre :as timbre] 
+            [taoensso.timbre :as timbre]
             [myapp.models.schema :as schema]
             [myapp.middleware :as mymiddleware]
             [myapp.models.quartzite :as quartz]
@@ -22,7 +22,7 @@
 
   ;;init the database if needed
   (timbre/info (str "db initialized ? : " (schema/initialized?)))
-  (if-not (schema/initialized?) (schema/create-tables)) 
+  (if-not (schema/initialized?) (schema/create-tables))
   (timbre/info "myapp started successfully")
 
   (quartz/myschedule)
@@ -39,9 +39,9 @@
 (def all-routes [home-routes app-routes])
 
 (def app (-> all-routes
-             middleware/app-handler
-             ;;add your middlewares here
-             mymiddleware/base-handler
-             ))
+           middleware/app-handler
+           ;;add your middlewares here
+           mymiddleware/base-handler
+           ))
 
 (def war-handler (middleware/war-handler app))

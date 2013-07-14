@@ -23,15 +23,14 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :blog
-      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
-      [:timestamp :timestamp] 
-      [:name "varchar(100)"]    ;md file name
-      [:title "varchar(100)"]   ;blog title
+      :blog [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      [:timestamp :timestamp ]
+      [:name "varchar(100)"] ;md file name
+      [:title "varchar(100)"] ;blog title
       [:summary "varchar(256)"] ;blog summary
-      [:postdate "INTEGER"]     ;blog post date
+      [:postdate "INTEGER"] ;blog post date
       [:pageview "INTEGER"]
-      [:vote "INTEGER"] 
+      [:vote "INTEGER"]
       [:share "INTEGER"]
       )
     (jdbc/do-commands
@@ -46,9 +45,8 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :config 
-      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
-      [:timestamp :timestamp]
+      :config [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      [:timestamp :timestamp ]
       [:key "varchar(100)"]
       [:value "varchar"]
       )
@@ -61,9 +59,8 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :tag 
-      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
-      [:timestamp :timestamp]
+      :tag [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      [:timestamp :timestamp ]
       [:name "varchar(100)"]
       [:blogid "INTEGER"]
       )
@@ -74,7 +71,7 @@
 (defn create-tables
   "creates the database tables used by the application"
   []
-  (do 
+  (do
     (if (create-blog-table) (timbre/info "create blog table"))
     (if (create-config-table) (timbre/info "create config table"))
     (if (create-tag-table) (timbre/info "create tag table"))

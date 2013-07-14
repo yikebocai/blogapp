@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>
-      {{blogname}} {% if blog.title %}：{% endif %} {{blog.title}}
+        {{blogname}} {% if blog.title %}：{% endif %} {{blog.title}}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -12,122 +12,136 @@
     <!-- Le styles -->
     <link href="{{context}}/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
-      body {
+        body {
         padding-top: 60px;
         padding-bottom: 40px;
-      }
+        }
     </style>
     <link href="{{context}}/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="{{context}}/css/blogapp.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="{{context}}/js/html5shiv.js"></script>
+    <script src="{{context}}/js/html5shiv.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{context}}/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{context}}/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="{{context}}/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="{{context}}/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{context}}/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="{{context}}/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="{{context}}/ico/favicon.png">
 
     <!-- Code SyntaxHighlighter Style -->
     <link type="text/css" rel="stylesheet" href="{{context}}/css/syntaxHighlighter/shCoreDefault.css"/>
-  </head>
+</head>
 
-  <body data-spy="scroll" data-target=".bs-docs-sidebar">
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
         <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand">{{blogname}}</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="/">Home</a></li>
-              {% if islogin %}
-              <li><a href="/config">Config</a></li>
-              <li><a href="/sync">Sync</a></li>
-              <li><a href="/dbmanager">DBManager</a></li>
-              {% endif %}
-              <li><a href="/about">About</a></li>
-              <li><a href="/feed">Rss</a></li>
-            </ul>
-            <form action="/" method="POST" class="navbar-form pull-right">
-              <ul class="nav">
-              {% if islogin %} 
-                 <li><a >欢迎，{{nickname}}</a></li>
-                 <button type="submit" class="btn btn-link">退出</button>
-              {% else %}
-                 <li><a href="/login">登陆</a></li> 
-              {% endif %}           
-              </ul>
-            </form>
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand">{{blogname}}</a>
 
-          </div><!--/.nav-collapse -->
+            <div class="nav-collapse collapse">
+                <!-- search by keyword -->
+                <ul class="nav">
+                    <li class="active"><a href="/">Home</a></li>
+                    {% if islogin %}
+                    <li><a href="/config">Config</a></li>
+                    <li><a href="/sync">Sync</a></li>
+                    <li><a href="/dbmanager">DBManager</a></li>
+                    {% endif %}
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/feed">Rss</a></li>
+                    <li>
+                        <form action="/search" method="GET" class="navbar-form">
+                            <input class="span2" type="text" name="p">
+                            <button type="submit" class="btn">Search</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <form action="/" method="POST" class="navbar-form pull-right">
+                    <ul class="nav">
+                        {% if islogin %}
+                        <li><a>欢迎，{{nickname}}</a></li>
+                        <button type="submit" class="btn btn-link">退出</button>
+                        {% else %}
+                        <li><a href="/login">登陆</a></li>
+                        {% endif %}
+                    </ul>
+                </form>
+
+            </div>
+            <!--/.nav-collapse -->
         </div>
-      </div>
     </div>
+</div>
 <div class="container">
-<div class="row">
-      <div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
-          {% for tag in tags %}
-          <li><a href="/tag?p={{tag.name}}"><i class="icon-chevron-right"></i> {{tag.name}}({{tag.count}})</a></li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div class="row">
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav nav-list bs-docs-sidenav">
+                {% for tag in tags %}
+                <li><a href="/tag?p={{tag.name}}"><i class="icon-chevron-right"></i> {{tag.name}}({{tag.count}})</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-	<div class="span8">
-     
-        {% block content %}
+        <div class="span8">
 
-        {% endblock %}  
-<hr>
-  <footer class="footer">
-     
-        <p>&copy;一棵波菜 2013</p>
-     <script src="http://s23.cnzz.com/stat.php?id=5468728&web_id=5468728&show=pic" language="JavaScript"></script>
-  </footer>
-    </div> <!-- /container -->
-  
+            {% block content %}
+
+            {% endblock %}
+            <hr>
+            <footer class="footer">
+
+                <p>&copy;一棵波菜 2013</p>
+                <script src="http://s23.cnzz.com/stat.php?id=5468728&web_id=5468728&show=pic"
+                        language="JavaScript"></script>
+            </footer>
+        </div>
+    </div>
 </div>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="{{context}}/js/jquery.js"></script>
-    <script src="{{context}}/js/bootstrap-transition.js"></script>
-    <script src="{{context}}/js/bootstrap-alert.js"></script>
-    <script src="{{context}}/js/bootstrap-modal.js"></script>
-    <script src="{{context}}/js/bootstrap-dropdown.js"></script>
-    <script src="{{context}}/js/bootstrap-scrollspy.js"></script>
-    <script src="{{context}}/js/bootstrap-tab.js"></script>
-    <script src="{{context}}/js/bootstrap-tooltip.js"></script>
-    <script src="{{context}}/js/bootstrap-popover.js"></script>
-    <script src="{{context}}/js/bootstrap-button.js"></script>
-    <script src="{{context}}/js/bootstrap-collapse.js"></script>
-    <script src="{{context}}/js/bootstrap-carousel.js"></script>
-    <script src="{{context}}/js/bootstrap-typeahead.js"></script>
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{context}}/js/jquery.js"></script>
+<script src="{{context}}/js/bootstrap-transition.js"></script>
+<script src="{{context}}/js/bootstrap-alert.js"></script>
+<script src="{{context}}/js/bootstrap-modal.js"></script>
+<script src="{{context}}/js/bootstrap-dropdown.js"></script>
+<script src="{{context}}/js/bootstrap-scrollspy.js"></script>
+<script src="{{context}}/js/bootstrap-tab.js"></script>
+<script src="{{context}}/js/bootstrap-tooltip.js"></script>
+<script src="{{context}}/js/bootstrap-popover.js"></script>
+<script src="{{context}}/js/bootstrap-button.js"></script>
+<script src="{{context}}/js/bootstrap-collapse.js"></script>
+<script src="{{context}}/js/bootstrap-carousel.js"></script>
+<script src="{{context}}/js/bootstrap-typeahead.js"></script>
 
-    <!-- Code SyntaxHighlighter -->
-    <script src="{{context}}/js/syntaxHighlighter/shCore.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushBash.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushClojure.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushCss.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushGroovy.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushJava.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushJScript.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushSql.js"></script>
-    <script src="{{context}}/js/syntaxHighlighter/shBrushXml.js"></script>
+<!-- Code SyntaxHighlighter -->
+<script src="{{context}}/js/syntaxHighlighter/shCore.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushBash.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushClojure.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushCss.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushGroovy.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushJava.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushJScript.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushSql.js"></script>
+<script src="{{context}}/js/syntaxHighlighter/shBrushXml.js"></script>
 
 
-    <script type="text/javascript">SyntaxHighlighter.all();</script>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
 
-  </body>
+</body>
 </html>

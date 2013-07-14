@@ -1,4 +1,4 @@
-(defproject myapp "0.1.0-SNAPSHOT"
+(defproject myapp "0.1.4-SNAPSHOT"
   :description "a static and simple blog application built by clojure,articles from github"
   :url "http://github.com/yikebocai/blogapp"
   :dependencies [[org.clojure/clojure "1.5.1"]
@@ -14,6 +14,7 @@
                  [clojure-soup "0.0.1"]
                  [clj-rss "0.1.3"]
                  [clojurewerkz/quartzite "1.0.1"]
+                 [clucy "0.4.0"]
                  ]
   :plugins [[lein-ring "0.8.3"]]
   :ring {:handler myapp.handler/war-handler

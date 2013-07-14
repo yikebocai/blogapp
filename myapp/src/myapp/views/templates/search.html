@@ -1,0 +1,11 @@
+{% extends "myapp/views/templates/base.html" %}
+
+
+{% block content %}
+<h2>Search Result:</h2>
+{% for result in resultset %}
+<p></p>
+<div><h4><a href="/blog?p={{result.name}}">{{result.title}}</a></h4></div>
+
+{% endfor %}
+{% endblock %}

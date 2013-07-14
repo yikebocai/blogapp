@@ -3,71 +3,81 @@
 
 {% block content %}
 
-<div class="row">  
-	<div ><h2>设置系统信息</h2></div> 
+<div class="row">
+    <div><h2>设置系统信息</h2></div>
 
-	<div>
-	<form id="configForm" action="/config" method="POST">
-		
-		<table>
-		<tr>
-			<td>源文件目录:</td>
-			<td><input type="text"  class="span4" placeholder="GitHub源文件放置的目录，必须是绝对路径" name="path" value={{path}}></input></td>
-		</tr>
-		<tr>
-	    	<td>GitHub Url：</td>
-	    	<td><input type="text"  class="span4" placeholder="Github Reposity地址，如：https://github.com/yikebocai/blog.git" name="url" value={{url}}></input></td>
-	    </tr>
-	    <tr>
-	    	<td>同步周期：</td>
-	    	<td><input type="text"  class="span4" placeholder="整数，单位为小时" name="period" value={{period}}></input></td> 
-		</tr>
+    <div>
+        <form id="configForm" action="/config" method="POST">
+
+            <table>
+                <tr>
+                    <td>源文件目录:</td>
+                    <td><input type="text" class="span4" placeholder="GitHub源文件放置的目录，必须是绝对路径" name="path"
+                               value={{path}}/></td>
+                </tr>
+                <tr>
+                    <td>GitHub Url：</td>
+                    <td><input type="text" class="span4"
+                               placeholder="Github Reposity地址，如：https://github.com/yikebocai/blog.git" name="url"
+                               value={{url}}/></td>
+                </tr>
+                <tr>
+                    <td>同步周期：</td>
+                    <td><input type="text" class="span4" placeholder="整数，单位为小时" name="period" value={{period}}/>
+                    </td>
+                </tr>
 
 
-		<tr>
-			<td>博客标题:</td>
-			<td><input type="text"  class="span4" placeholder="比如：一棵波菜的BLOG" name="blogname" value={{blogname}}></input></td>
-		</tr>
-	    <tr>
-	    	<td>登录邮件：</td>
-	    	<td><input type="text"  class="span4" placeholder="用户帐号，接收消息的Email" name="email" value={{email}}></input></td> 
-		</tr>
-		<tr>
-	    	<td>密码：</td>
-	    	<td><input type="password"  class="span4" placeholder="登录密码" name="password" value={{password}}></input></td> 
-		</tr>
-		<tr>
-	    	<td>呢称：</td>
-	    	<td><input type="text"  class="span4" placeholder="比如：bocai" name="nickname" value={{nickname}}></input></td>
-	    </tr>
-	  
-  		<tr>
-  			<td></td>
-  			<td><div id="configBtn" class="btn btn-primary">设置</div></td>
-  		</tr>
-  		</table>
-	</form>
-	</div>
-	 
-	{% ifequal result "OK" %}
-	<div id="configAlert" class="alert alert-success">
-		<a class="close" data-dismiss="alert">x</a>
-		设置完毕！
-	</div>
-	{% endifequal %}
+                <tr>
+                    <td>博客标题:</td>
+                    <td><input type="text" class="span4" placeholder="比如：一棵波菜的BLOG" name="blogname"
+                               value={{blogname}}/></td>
+                </tr>
+                <tr>
+                    <td>登录邮件：</td>
+                    <td><input type="text" class="span4" placeholder="用户帐号，接收消息的Email" name="email"
+                               value={{email}}/></td>
+                </tr>
+                <tr>
+                    <td>密码：</td>
+                    <td><input type="password" class="span4" placeholder="登录密码" name="password"
+                               value={{password}}/></td>
+                </tr>
+                <tr>
+                    <td>呢称：</td>
+                    <td><input type="text" class="span4" placeholder="比如：bocai" name="nickname"
+                               value={{nickname}}/></td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <div id="configBtn" class="btn btn-primary">设置</div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    {% ifequal result "OK" %}
+    <div id="configAlert" class="alert alert-success">
+        <a class="close" data-dismiss="alert">x</a>
+        设置完毕！
+    </div>
+    {% endifequal %}
 </div>
 {% endblock %}
 
 <!-- click button event  -->
 <script type="text/javascript">
-jQuery(document).ready(function(){
-	$("#configBtn").click(function(){
-		//alert('test');
-		$("#configAlert").hide();
-   		$("#configForm").submit();
+    jQuery(document).ready(function(){
+    $("#configBtn").click(function(){
+    //alert('test');
+    $("#configAlert").hide();
+    $("#configForm").submit();
 
-   });
+    });
 
-});
+    });
 </script>
 
