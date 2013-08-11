@@ -23,7 +23,8 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :blog [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      :blog 
+      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp ]
       [:name "varchar(100)"] ;md file name
       [:title "varchar(100)"] ;blog title
@@ -45,7 +46,8 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :config [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      :config 
+      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp ]
       [:key "varchar(100)"]
       [:value "varchar"]
@@ -59,7 +61,8 @@
   (jdbc/with-connection
     db-spec
     (jdbc/create-table
-      :tag [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
+      :tag 
+      [:id "INTEGER PRIMARY KEY AUTO_INCREMENT"]
       [:timestamp :timestamp ]
       [:name "varchar(100)"]
       [:blogid "INTEGER"]
