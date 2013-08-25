@@ -13,6 +13,7 @@ blogapp
 * 支持数据库查询
 * 支持Session功能
 * 支持RSS订阅
+* 支持搜索功能
 
 **部署使用**
 
@@ -42,11 +43,12 @@ blogapp
 
 请访问我用这个应用程序搭建的博客[一棵波菜](http://yikebocai.com)
 
-**TODO**
+**更新日志**
+0.1.4(2013-8-27)
 
 * 增加搜索功能
-
-**更新日志**
+* 调整blog页面部署，包括源代码上下填充、页脚横排、页脚和文章内容的宽度等
+* 将页面模板引擎从[clabango](https://github.com/danlarkin/clabango)换成[selmer](https://github.com/yogthos/Selmer)
 
 0.1.3(2013-7-4)
 
