@@ -25,7 +25,8 @@
               (j/of-type myjob)
               (j/with-identity (j/key "jobs.noop.1")))
         tk (t/key "triggers.1")
-        period (java.lang.Integer/parseInt (config/get-value "period"))
+        period (config/get-value "period")
+        period (if (nil? period) 12 (java.lang.Integer/parseInt period))
         trigger (t/build
                   (t/with-identity tk)
                   (t/start-now)

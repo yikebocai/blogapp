@@ -2,7 +2,7 @@
 WEB_APP_HOME=/home/admin/blogapp
 APP_NAME=myapp
 WAR_NAME=$APP_NAME.war
-APP_WAR=$WEB_APP_HOME/$APP_NAME/target/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
+APP_WAR=$WEB_APP_HOME/$APP_NAME/target/$APP_NAME-*-SNAPSHOT-standalone.war
 WAR_DIR=$WEB_APP_HOME/deploy/$WAR_NAME
 
 echo "start app deploy ..."
@@ -22,7 +22,7 @@ mkdir $WAR_DIR
 cp $APP_WAR  $WAR_DIR
 cd $WAR_DIR
 jar -xf $APP_WAR
-rm $WAR_DIR/$APP_NAME-0.1.0-SNAPSHOT-standalone.war
+rm $WAR_DIR/$APP_NAME-*-SNAPSHOT-standalone.war
 echo "OK!"
 
 echo "deploy is over"
