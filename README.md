@@ -41,7 +41,7 @@ blogapp
 
 **示例**
 
-请访问我用这个应用程序搭建的博客[一棵波菜](http://yikebocai.com)
+请访问我用这个应用程序搭建的博客[一棵波菜](http://yikebocai.com)或[备用域名](http://xinbo.me)
 
 **更新日志**
 0.1.4(2013-8-27)
