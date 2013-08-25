@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="row">
+<div>
     <div><h1>{{blog.title}}</h1></div>
     <div>
         <i style="font-family:Times New Roman">{{blog.postdate}} by <a href="/about">bocai</a></i>
@@ -18,7 +18,7 @@
 
     </div>
     <div><br></div>
-    <div>{{blog.content}}</div>
+    <div>{{blog.content|safe}}</div>
 
     <!-- JiaThis Button BEGIN -->
     <div align="right" class="jiathis_style_24x24">

@@ -1,6 +1,6 @@
 (ns myapp.views.layout
   (:use noir.request)
-  (:require [clabango.parser :as parser]
+  (:require [selmer.parser :as parser]
             [taoensso.timbre :as timbre]
             [noir.session :as session]
             ))
