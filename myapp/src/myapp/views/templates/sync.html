@@ -8,10 +8,10 @@
 
     <div>
         <form id="syncForm" action="/sync" method="POST">
-            本地目录：<input type="text" class="span4" readonly="readonly" name="path" value={{path}}/>
+            本地目录：<input type="text" class="span4" readonly="readonly" name="path" value="{{path}}" />
 
             <p></p>
-            同步URL：<input type="text" class="span4" readonly="readonly" name="url" value={{url}}/>
+            同步URL：<input type="text" class="span4" readonly="readonly" name="url" value="{{url}}" />
 
             <p></p>
 
@@ -33,7 +33,6 @@
     </div>
     {% endif %}
 </div>
-{% endblock %}
 
 <!-- click button event  -->
 <script type="text/javascript">
@@ -48,4 +47,5 @@
 
     });
 </script>
+{% endblock %}
 

@@ -64,6 +64,7 @@
     (redirect "/")))
 
 (defn config-page-submit [path url period blogname email password nickname]
+  (println "aaaaaa")
   (layout/render
     "config.html"
     {:path path
