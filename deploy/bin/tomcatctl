@@ -8,7 +8,8 @@ OUTPUT_HOME=$WEB_APP_HOME/deploy
 STDOUT_LOG=$OUTPUT_HOME/logs/tomcat.log
 CHECK_STARTUP_URL="http://localhost:$APP_PORT/ok"
 TOMCAT_HOME=/usr/install/tomcat
-JAVA_OPTS='-server -Xms256m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M'
+DATE=`date +%Y-%m-%d`
+JAVA_OPTS='-server -Xms256m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/admin/blogapp/oom_$DATE.bin'
 export JAVA_OPTS
 
 start()
